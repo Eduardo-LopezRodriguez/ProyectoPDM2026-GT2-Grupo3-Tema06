@@ -13,7 +13,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
 
     companion object {
         private const val DATABASE_NAME = "gradues.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
     }
 
     override fun onConfigure(db: SQLiteDatabase) {
@@ -176,15 +176,21 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
                 idUsuario INTEGER NOT NULL,
                 idModalidad INTEGER NOT NULL,
                 idTrabajoGraduacion INTEGER,
+                idGrupoTGESolicitado INTEGER,
+                idEmpresaSolicitada INTEGER,
+                codigoAgrupacionSolicitud TEXT,
+                nombreTrabajoPropuesto TEXT,
                 fechaSolicitud TEXT NOT NULL,
                 estadoSolicitud TEXT NOT NULL,
                 observacionSolicitud TEXT,
                 FOREIGN KEY(idUsuario) REFERENCES usuario(idUsuario),
                 FOREIGN KEY(idModalidad) REFERENCES modalidad(idModalidad),
-                FOREIGN KEY(idTrabajoGraduacion) REFERENCES trabajo_graduacion(idTrabajoGraduacion)
+                FOREIGN KEY(idTrabajoGraduacion) REFERENCES trabajo_graduacion(idTrabajoGraduacion),
+                FOREIGN KEY(idGrupoTGESolicitado) REFERENCES grupo_tge(idGrupoTGE),
+                FOREIGN KEY(idEmpresaSolicitada) REFERENCES empresa(idEmpresa)
             )
             """.trimIndent()
-        )
+                )
 
         db.execSQL(
             """
@@ -230,10 +236,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
         )
 
         db.execSQL(
-            """
+                    """
             CREATE TABLE IF NOT EXISTS grupo_tgi (
                 idGrupoTGI INTEGER PRIMARY KEY,
                 idTrabajoGraduacion INTEGER,
+                codigoGrupoTGI TEXT,
                 fechaCreacion TEXT,
                 fechaFinal TEXT,
                 FOREIGN KEY(idTrabajoGraduacion) REFERENCES trabajo_graduacion(idTrabajoGraduacion)
@@ -517,11 +524,49 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
         db.execSQL("INSERT OR IGNORE INTO alumno_trabajo VALUES (4, 5, 2, 'Activo')")
         db.execSQL("INSERT OR IGNORE INTO alumno_trabajo VALUES (5, 6, 3, 'Activo')")
 
-        db.execSQL("INSERT OR IGNORE INTO solicitud_modalidad VALUES (1, 2, 1, 1, '2026-05-21', 'Aprobada', 'Solicitud aprobada para modalidad de investigación')")
-        db.execSQL("INSERT OR IGNORE INTO solicitud_modalidad VALUES (2, 4, 2, 2, '2026-05-21', 'Aprobada', 'Solicitud aprobada para curso de especialización')")
-        db.execSQL("INSERT OR IGNORE INTO solicitud_modalidad VALUES (3, 6, 3, 3, '2026-05-21', 'Pendiente', 'Solicitud pendiente de revisión para pasantía')")
+        db.execSQL(
+            """
+    INSERT OR IGNORE INTO solicitud_modalidad VALUES (
+        1, 2, 1, 1,
+        NULL, NULL,
+        'TGI-01',
+        'Sistema de seguimiento académico',
+        '2026-05-21',
+        'Aprobada',
+        'Solicitud aprobada para modalidad de investigación'
+    )
+    """.trimIndent()
+        )
 
-        db.execSQL("INSERT OR IGNORE INTO grupo_tgi VALUES (1, 1, '2026-04-01', NULL)")
+        db.execSQL(
+            """
+    INSERT OR IGNORE INTO solicitud_modalidad VALUES (
+        2, 4, 2, 2,
+        1, NULL,
+        'SUB-01',
+        'Sistema de gestión de contenido para estudiantes',
+        '2026-05-21',
+        'Aprobada',
+        'Solicitud aprobada para curso de especialización'
+    )
+    """.trimIndent()
+        )
+
+        db.execSQL(
+            """
+    INSERT OR IGNORE INTO solicitud_modalidad VALUES (
+        3, 6, 3, 3,
+        NULL, 1,
+        'PAS-01',
+        'Pasantía profesional en empresa colaboradora',
+        '2026-05-21',
+        'Pendiente',
+        'Solicitud pendiente de revisión para pasantía'
+    )
+    """.trimIndent()
+        )
+
+        db.execSQL("INSERT OR IGNORE INTO grupo_tgi VALUES (1, 1, 'TGI-01', '2026-04-01', NULL)")
         db.execSQL("INSERT OR IGNORE INTO subgrupo_tge VALUES (1, 1, 2, 'Subgrupo 01', 'Sistema de gestión de contenido para estudiantes')")
 
         db.execSQL("INSERT OR IGNORE INTO personero VALUES (1, 1, 'Eliner Villafuerte', 'Supervisor')")
