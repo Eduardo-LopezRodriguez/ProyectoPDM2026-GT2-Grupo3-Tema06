@@ -29,6 +29,8 @@
 
         <activity android:name=".ui.dashboard.alumno.DashboardAlumnoActivity" />
 
+        <activity android:name=".ui.dashboard.alumno.AplicarTrabajoAlumnoActivity" />
+
     </application>
 
 </manifest>

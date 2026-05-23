@@ -2,6 +2,7 @@ package com.example.gradues.ui.dashboard.alumno
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gradues.data.dao.DashboardAlumnoDao
@@ -9,7 +10,7 @@ import com.example.gradues.data.db.DatabaseHelper
 import com.example.gradues.databinding.ActivityDashboardAlumnoBinding
 import com.example.gradues.ui.login.LoginActivity
 import com.example.gradues.utils.SessionManager
-import java.util.Locale
+import com.example.gradues.ui.dashboard.alumno.AplicarTrabajoAlumnoActivity
 
 class DashboardAlumnoActivity : AppCompatActivity() {
 
@@ -26,8 +27,8 @@ class DashboardAlumnoActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
 
         validarSesion()
-        configurarEventos()
-        cargarResumenAlumno()
+        configurarEventosBase()
+        cargarDashboard()
     }
 
     private fun validarSesion() {
@@ -36,21 +37,45 @@ class DashboardAlumnoActivity : AppCompatActivity() {
             return
         }
 
-        val rol = sessionManager.getRol()?.trim()?.lowercase(Locale.getDefault()).orEmpty()
+        val rol = sessionManager.getRol()?.trim()?.lowercase().orEmpty()
         if (rol != "alumno") {
-            Toast.makeText(this, "Acceso no autorizado para esta pantalla.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Acceso no autorizado.", Toast.LENGTH_SHORT).show()
             finish()
         }
     }
 
-    private fun configurarEventos() {
+    private fun configurarEventosBase() {
         binding.btnCerrarSesionAlumno.setOnClickListener {
             sessionManager.cerrarSesion()
             irAlLogin()
         }
+
+        binding.btnMenuAlumno.setOnClickListener {
+            Toast.makeText(this, "Menú pendiente de implementar.", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.btnNotificacionesAlumno.setOnClickListener {
+            Toast.makeText(this, "Notificaciones pendientes de implementar.", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.btnPerfilAlumno.setOnClickListener {
+            Toast.makeText(this, "Perfil pendiente de implementar.", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.itemInicioAlumno.setOnClickListener {
+            Toast.makeText(this, "Ya estás en inicio.", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.itemGrupoAlumno.setOnClickListener {
+            Toast.makeText(this, "Detalle de grupo pendiente de implementar.", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.itemPerfilAlumno.setOnClickListener {
+            Toast.makeText(this, "Perfil pendiente de implementar.", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun cargarResumenAlumno() {
+    private fun cargarDashboard() {
         val idSesion = sessionManager.getIdUsuario()?.trim().orEmpty()
 
         if (idSesion.isEmpty()) {
@@ -59,28 +84,98 @@ class DashboardAlumnoActivity : AppCompatActivity() {
             return
         }
 
-        val resumen = dashboardAlumnoDao.obtenerResumenAlumno(idSesion)
+        val dashboard = dashboardAlumnoDao.obtenerDashboardAlumno(idSesion)
 
-        if (resumen == null) {
+        if (dashboard == null) {
             Toast.makeText(this, "No se encontró información del alumno.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        binding.tvNombreAlumno.text = resumen.nombreCompleto
-        binding.tvCarnetAlumno.text = "Carnet: ${resumen.carnet}"
-        binding.tvModalidadAlumno.text = "Modalidad: ${resumen.modalidadActual}"
-        binding.tvEstadoSolicitudAlumno.text = "Estado de solicitud: ${resumen.estadoSolicitud}"
-        binding.tvTrabajoAlumno.text = "Trabajo: ${resumen.nombreTrabajo}"
-        binding.tvCodigoAgrupacionAlumno.text = "Código de agrupación: ${resumen.codigoAgrupacion}"
+        binding.tvSaludoAlumno.text = "¡Hola, ${dashboard.nombreCompleto}!"
+        binding.tvCorreoAlumno.text = dashboard.correoUsuario.ifBlank { dashboard.carnetUsuario }
 
-        binding.tvTotalDocumentosAlumno.text = resumen.totalDocumentos.toString()
-        binding.tvTotalPropuestasAlumno.text = resumen.totalPropuestas.toString()
-        binding.tvTotalNotasAlumno.text = resumen.totalNotasRegistradas.toString()
-        binding.tvPromedioNotasAlumno.text = String.format(
-            Locale.getDefault(),
-            "%.2f",
-            resumen.promedioNotas
-        )
+        binding.tvTituloSeccionPrincipal.text = dashboard.tituloSeccionPrincipal
+        binding.tvTituloTarjetaPrincipal.text = dashboard.tituloTarjetaPrincipal
+        binding.tvSubtituloTarjetaPrincipal.text = dashboard.subtituloTarjetaPrincipal
+        binding.btnAccionPrincipalAlumno.text = dashboard.textoBotonPrincipal
+
+        binding.tvTituloBloqueSecundario.text = dashboard.tituloBloqueSecundario
+        binding.tvDescripcionBloqueSecundario.text = dashboard.descripcionBloqueSecundario
+        binding.tvEstadoBloqueSecundario.text = dashboard.estadoBloqueSecundario
+        binding.btnDetalleBloqueSecundario.text = dashboard.textoBotonSecundario
+
+        binding.tvNotaEtapa1Alumno.text = "Etapa 1: ${dashboard.notaEtapa1}"
+        binding.tvNotaEtapa2Alumno.text = "Etapa 2: ${dashboard.notaEtapa2}"
+        binding.tvNotaEtapa3Alumno.text = "Etapa 3: ${dashboard.notaEtapa3}"
+        binding.tvNotaEtapa4Alumno.text = "Etapa 4: ${dashboard.notaEtapa4}"
+
+        binding.btnAccionInferiorAlumno.text = dashboard.textoBotonAccionInferior
+
+        binding.cardBloqueSecundarioAlumno.visibility =
+            if (dashboard.mostrarBloquePropuestas) View.VISIBLE else View.GONE
+
+        binding.cardNotasAlumno.visibility =
+            if (dashboard.mostrarBloqueNotas) View.VISIBLE else View.GONE
+
+        configurarEventosSegunDashboard(dashboard.tipoDashboard)
+    }
+
+    private fun configurarEventosSegunDashboard(tipoDashboard: String) {
+        binding.btnAccionPrincipalAlumno.setOnClickListener {
+            when (tipoDashboard) {
+                "INVESTIGACION" -> {
+                    Toast.makeText(this, "Abrir detalle del grupo de investigación.", Toast.LENGTH_SHORT).show()
+                }
+                "ESPECIALIZACION" -> {
+                    Toast.makeText(this, "Abrir detalle del grupo de especialización.", Toast.LENGTH_SHORT).show()
+                }
+                "PASANTIA" -> {
+                    Toast.makeText(this, "Abrir detalle de la pasantía.", Toast.LENGTH_SHORT).show()
+                }
+                "SIN_TRABAJO" -> {
+                    val intent = Intent(this, AplicarTrabajoAlumnoActivity::class.java)
+                    startActivity(intent)
+                }
+                else -> {
+                    Toast.makeText(this, "Acción no disponible.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        binding.btnDetalleBloqueSecundario.setOnClickListener {
+            when (tipoDashboard) {
+                "INVESTIGACION", "ESPECIALIZACION" -> {
+                    Toast.makeText(this, "Abrir detalle de propuestas.", Toast.LENGTH_SHORT).show()
+                }
+                "PASANTIA" -> {
+                    Toast.makeText(this, "Abrir detalle de bitácoras.", Toast.LENGTH_SHORT).show()
+                }
+                "SIN_TRABAJO" -> {
+                    val intent = Intent(this, AplicarTrabajoAlumnoActivity::class.java)
+                    startActivity(intent)
+                }
+                else -> {
+                    Toast.makeText(this, "Detalle no disponible.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        binding.btnAccionInferiorAlumno.setOnClickListener {
+            when (tipoDashboard) {
+                "INVESTIGACION", "ESPECIALIZACION" -> {
+                    Toast.makeText(this, "Abrir registro de propuestas.", Toast.LENGTH_SHORT).show()
+                }
+                "PASANTIA" -> {
+                    Toast.makeText(this, "Abrir registro de bitácoras.", Toast.LENGTH_SHORT).show()
+                }
+                "SIN_TRABAJO" -> {
+                    Toast.makeText(this, "Abrir pantalla para aplicar a trabajo.", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(this, "Acción no disponible.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun irAlLogin() {
