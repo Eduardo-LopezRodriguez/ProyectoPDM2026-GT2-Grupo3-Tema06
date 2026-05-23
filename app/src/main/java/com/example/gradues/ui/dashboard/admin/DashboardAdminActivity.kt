@@ -41,11 +41,8 @@ class DashboardAdminActivity : AppCompatActivity() {
         }
 
         binding.btnSolicitudesModalidad.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Pantalla de solicitudes de modalidad pendiente.",
-                Toast.LENGTH_LONG
-            ).show()
+            val intent = Intent(this, SolicitudesModalidadAdminActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnVerTrabajos.setOnClickListener {
