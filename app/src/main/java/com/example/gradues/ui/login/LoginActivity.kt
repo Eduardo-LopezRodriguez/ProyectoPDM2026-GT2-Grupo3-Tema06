@@ -7,6 +7,9 @@ import com.example.gradues.data.dao.UsuarioDao
 import com.example.gradues.data.db.DatabaseHelper
 import com.example.gradues.databinding.ActivityLoginBinding
 import com.example.gradues.utils.SessionManager
+import android.content.Intent
+import android.widget.Toast
+import com.example.gradues.ui.dashboard.docente.DashboardDocenteActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -67,6 +70,8 @@ class LoginActivity : AppCompatActivity() {
             rol = usuario.NombreRol
         )
 
+        redirigirSegunRol(usuario.NombreRol)
+
 // Pendiente: en el siguiente bloque se redirigirá al dashboard según el rol.
 // Por ahora solo dejamos la sesión guardada sin mostrar mensaje de prueba.
     }
@@ -79,5 +84,27 @@ class LoginActivity : AppCompatActivity() {
     private fun limpiarError() {
         binding.tvError.text = ""
         binding.tvError.visibility = View.GONE
+    }
+
+    private fun redirigirSegunRol(rol: String) {
+        when (rol.trim().lowercase()) {
+            "docente", "administrador" -> {
+                val intent = Intent(this, DashboardDocenteActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            "alumno" -> {
+                Toast.makeText(
+                    this,
+                    "Dashboard de alumno pendiente de implementar.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+            else -> {
+                mostrarError("Rol no reconocido.")
+            }
+        }
     }
 }
