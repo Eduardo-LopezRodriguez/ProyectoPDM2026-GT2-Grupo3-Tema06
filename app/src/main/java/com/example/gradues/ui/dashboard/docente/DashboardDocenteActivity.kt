@@ -71,9 +71,6 @@ class DashboardDocenteActivity : AppCompatActivity() {
         binding.tvTotalEspecializacion.text = model.totalEspecializacion.toString()
         binding.tvTotalPasantia.text = model.totalPasantia.toString()
 
-        binding.tvSolicitudesPendientes.text =
-            "Solicitudes pendientes: ${model.solicitudesPendientes}"
-
         binding.tvDocumentosRevision.text =
             "Documentos en revisión: ${model.documentosRevision}"
 

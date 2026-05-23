@@ -7,7 +7,6 @@ data class DashboardDocenteModel(
     val totalInvestigacion: Int,
     val totalEspecializacion: Int,
     val totalPasantia: Int,
-    val solicitudesPendientes: Int,
     val documentosRevision: Int,
     val bitacorasPendientes: Int
 )

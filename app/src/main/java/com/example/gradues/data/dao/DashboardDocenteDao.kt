@@ -57,7 +57,6 @@ class DashboardDocenteDao(
                 totalInvestigacion = contarTrabajosPorModalidad(idUsuarioInterno, 1),
                 totalEspecializacion = contarTrabajosPorModalidad(idUsuarioInterno, 2),
                 totalPasantia = contarTrabajosPorModalidad(idUsuarioInterno, 3),
-                solicitudesPendientes = contarSolicitudesPendientes(),
                 documentosRevision = contarDocumentosEnRevision(idUsuarioInterno),
                 bitacorasPendientes = contarBitacorasPendientes(idUsuarioInterno)
             )
@@ -79,23 +78,6 @@ class DashboardDocenteDao(
                   AND COALESCE(estadoTrabajo, 'Activo') = 'Activo'
                 """.trimIndent(),
             arrayOf(idDocente.toString(), idModalidad.toString())
-        )
-
-        val total = obtenerTotal(cursor)
-        cursor.close()
-        return total
-    }
-
-    private fun contarSolicitudesPendientes(): Int {
-        val db = dbHelper.readableDatabase
-
-        val cursor = db.rawQuery(
-            """
-                SELECT COUNT(*) AS Total
-                FROM solicitud_modalidad
-                WHERE estadoSolicitud = 'Pendiente'
-                """.trimIndent(),
-            null
         )
 
         val total = obtenerTotal(cursor)

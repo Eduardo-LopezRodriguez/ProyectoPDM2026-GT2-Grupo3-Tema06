@@ -173,15 +173,6 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvSolicitudesPendientes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:text="Solicitudes pendientes: 0"
-                    android:textColor="#333333"
-                    android:textSize="15sp" />
-
-                <TextView
                     android:id="@+id/tvDocumentosRevision"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
