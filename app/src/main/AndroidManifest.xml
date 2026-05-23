@@ -27,6 +27,8 @@
             android:name=".ui.dashboard.admin.DashboardAdminActivity"
             android:exported="false" />
 
+        <activity android:name=".ui.dashboard.alumno.DashboardAlumnoActivity" />
+
     </application>
 
 </manifest>
