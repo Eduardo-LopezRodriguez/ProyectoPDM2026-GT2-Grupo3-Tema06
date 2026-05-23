@@ -10,6 +10,7 @@ import com.example.gradues.utils.SessionManager
 import android.content.Intent
 import android.widget.Toast
 import com.example.gradues.ui.dashboard.docente.DashboardDocenteActivity
+import com.example.gradues.ui.dashboard.admin.DashboardAdminActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -88,7 +89,13 @@ class LoginActivity : AppCompatActivity() {
 
     private fun redirigirSegunRol(rol: String) {
         when (rol.trim().lowercase()) {
-            "docente", "administrador" -> {
+            "administrador" -> {
+                val intent = Intent(this, DashboardAdminActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            "docente" -> {
                 val intent = Intent(this, DashboardDocenteActivity::class.java)
                 startActivity(intent)
                 finish()

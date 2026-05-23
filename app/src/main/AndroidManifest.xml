@@ -23,6 +23,9 @@
         <activity
             android:name=".ui.dashboard.docente.DashboardDocenteActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.dashboard.admin.DashboardAdminActivity"
+            android:exported="false" />
 
     </application>
 
