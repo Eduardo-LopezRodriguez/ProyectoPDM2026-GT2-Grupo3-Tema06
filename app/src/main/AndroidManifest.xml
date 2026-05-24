@@ -52,6 +52,10 @@
             android:name=".ui.dashboard.admin.RegistroUsuarioAdminActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.dashboard.admin.EditarUsuarioAdminActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

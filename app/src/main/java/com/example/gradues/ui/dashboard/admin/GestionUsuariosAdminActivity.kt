@@ -112,6 +112,25 @@ class GestionUsuariosAdminActivity : AppCompatActivity() {
                     idUsuarioSesion.equals(usuario.carnetUsuario.orEmpty(), ignoreCase = true) ||
                     idUsuarioSesion.equals(usuario.correoUsuario.orEmpty(), ignoreCase = true)
 
+        val btnEditar = Button(this).apply {
+            isAllCaps = false
+            text = "Editar usuario"
+            setTextColor(0xFFFFFFFF.toInt())
+            setBackgroundColor(0xFFB71C1C.toInt())
+
+            setOnClickListener {
+                val intent = Intent(
+                    this@GestionUsuariosAdminActivity,
+                    EditarUsuarioAdminActivity::class.java
+                )
+
+                intent.putExtra("idUsuario", usuario.idUsuario)
+                startActivity(intent)
+            }
+        }
+
+        card.addView(btnEditar)
+
         val btnCambiarEstado = Button(this).apply {
             isAllCaps = false
 
