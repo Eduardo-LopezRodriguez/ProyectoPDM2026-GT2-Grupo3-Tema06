@@ -193,7 +193,7 @@ class DashboardAlumnoDao(private val dbHelper: DatabaseHelper) {
                     descripcionBloqueSecundario = if (nombreTrabajoPropuesto.isNotBlank()) {
                         nombreTrabajoPropuesto
                     } else {
-                        "Todavía no has sido asignado a un trabajo de graduación"
+                        "Todavía no has realizado una solicitud de modalidad."
                     },
                     estadoBloqueSecundario = "Estado: $estadoSolicitud",
                     textoBotonSecundario = "Ver detalle",
@@ -321,5 +321,87 @@ class DashboardAlumnoDao(private val dbHelper: DatabaseHelper) {
         } else {
             String.format(Locale.getDefault(), "%.2f", cursor.getDouble(index))
         }
+    }
+
+    private fun obtenerEstadoSolicitudAlumno(
+        idUsuario: Int,
+        db: android.database.sqlite.SQLiteDatabase
+    ): Pair<String, String> {
+        val query = """
+        SELECT
+            sm.estadoSolicitud,
+            sm.nombreTrabajoPropuesto,
+            sm.fechaSolicitud,
+            m.tipoModalidad
+        FROM solicitud_modalidad sm
+        LEFT JOIN modalidad m
+            ON m.idModalidad = sm.idModalidad
+        WHERE sm.idUsuario = ?
+        ORDER BY sm.idSolicitudModalidad DESC
+        LIMIT 1
+    """.trimIndent()
+
+        val cursor = db.rawQuery(query, arrayOf(idUsuario.toString()))
+
+        var estadoTexto = "Estado: Sin solicitud"
+        var detalleTexto = "Todavía no has realizado una solicitud de modalidad."
+
+        if (cursor.moveToFirst()) {
+            val estado = cursor.getString(cursor.getColumnIndexOrThrow("estadoSolicitud")).orEmpty()
+            val nombreTrabajo = if (cursor.isNull(cursor.getColumnIndexOrThrow("nombreTrabajoPropuesto"))) {
+                ""
+            } else {
+                cursor.getString(cursor.getColumnIndexOrThrow("nombreTrabajoPropuesto"))
+            }
+
+            val modalidad = if (cursor.isNull(cursor.getColumnIndexOrThrow("tipoModalidad"))) {
+                ""
+            } else {
+                cursor.getString(cursor.getColumnIndexOrThrow("tipoModalidad"))
+            }
+
+            estadoTexto = "Estado: ${estado.ifBlank { "Sin estado" }}"
+
+            detalleTexto = when {
+                nombreTrabajo.isNotBlank() && modalidad.isNotBlank() ->
+                    "$modalidad - $nombreTrabajo"
+                nombreTrabajo.isNotBlank() ->
+                    nombreTrabajo
+                modalidad.isNotBlank() ->
+                    modalidad
+                else ->
+                    "Solicitud registrada recientemente"
+            }
+        }
+
+        cursor.close()
+        return Pair(estadoTexto, detalleTexto)
+    }
+
+    fun alumnoTieneSolicitudPendiente(idSesion: String): Boolean {
+        val db = dbHelper.readableDatabase
+
+        val query = """
+        SELECT EXISTS(
+            SELECT 1
+            FROM solicitud_modalidad sm
+            INNER JOIN usuario u
+                ON u.idUsuario = sm.idUsuario
+            WHERE (CAST(u.idUsuario AS TEXT) = ?
+               OR UPPER(COALESCE(u.carnetUsuario, '')) = UPPER(?))
+              AND UPPER(COALESCE(sm.estadoSolicitud, '')) = 'PENDIENTE'
+        )
+    """.trimIndent()
+
+        val cursor = db.rawQuery(query, arrayOf(idSesion.trim(), idSesion.trim()))
+
+        var existePendiente = false
+
+        if (cursor.moveToFirst()) {
+            existePendiente = cursor.getInt(0) == 1
+        }
+
+        cursor.close()
+        return existePendiente
     }
 }

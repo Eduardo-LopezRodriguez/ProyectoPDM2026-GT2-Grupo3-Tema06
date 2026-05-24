@@ -8,6 +8,7 @@ import com.example.gradues.data.dao.TrabajoDisponibleAlumnoDao
 import com.example.gradues.data.db.DatabaseHelper
 import com.example.gradues.data.model.TrabajoDisponibleAlumnoModel
 import com.example.gradues.databinding.ActivityAplicarTrabajoAlumnoBinding
+import com.example.gradues.utils.SessionManager
 
 class AplicarTrabajoAlumnoActivity : AppCompatActivity() {
 
@@ -15,9 +16,12 @@ class AplicarTrabajoAlumnoActivity : AppCompatActivity() {
     private lateinit var trabajoDisponibleAlumnoDao: TrabajoDisponibleAlumnoDao
     private lateinit var trabajoDisponibleAlumnoAdapter: TrabajoDisponibleAlumnoAdapter
 
+    private lateinit var sessionManager: SessionManager
+
     private var trabajoSeleccionado: TrabajoDisponibleAlumnoModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        sessionManager = SessionManager(this)
         super.onCreate(savedInstanceState)
         binding = ActivityAplicarTrabajoAlumnoBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -51,11 +55,30 @@ class AplicarTrabajoAlumnoActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            Toast.makeText(
-                this,
-                "Solicitud lista para el trabajo: ${trabajo.nombreTrabajo}",
-                Toast.LENGTH_LONG
-            ).show()
+            val idSesion = sessionManager.getIdUsuario()?.trim().orEmpty()
+            if (idSesion.isEmpty()) {
+                Toast.makeText(this, "No se encontró la sesión del alumno.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val aplicado = trabajoDisponibleAlumnoDao.aplicarATrabajo(idSesion, trabajo)
+
+            if (aplicado) {
+                Toast.makeText(
+                    this,
+                    "Solicitud enviada correctamente.",
+                    Toast.LENGTH_LONG
+                ).show()
+
+                setResult(RESULT_OK)
+                finish()
+            } else {
+                Toast.makeText(
+                    this,
+                    "No fue posible enviar la solicitud. Verifica si ya tienes trabajo o una solicitud pendiente.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 

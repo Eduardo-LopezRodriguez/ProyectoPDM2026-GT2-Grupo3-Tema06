@@ -11,6 +11,7 @@ import com.example.gradues.databinding.ActivityDashboardAlumnoBinding
 import com.example.gradues.ui.login.LoginActivity
 import com.example.gradues.utils.SessionManager
 import com.example.gradues.ui.dashboard.alumno.AplicarTrabajoAlumnoActivity
+import com.example.gradues.ui.dashboard.alumno.DetalleSolicitudAlumnoActivity
 
 class DashboardAlumnoActivity : AppCompatActivity() {
 
@@ -133,6 +134,24 @@ class DashboardAlumnoActivity : AppCompatActivity() {
                     Toast.makeText(this, "Abrir detalle de la pasantía.", Toast.LENGTH_SHORT).show()
                 }
                 "SIN_TRABAJO" -> {
+                    val idSesion = sessionManager.getIdUsuario()?.trim().orEmpty()
+
+                    if (idSesion.isBlank()) {
+                        Toast.makeText(this, "No se encontró la sesión del alumno.", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+
+                    val tienePendiente = dashboardAlumnoDao.alumnoTieneSolicitudPendiente(idSesion)
+
+                    if (tienePendiente) {
+                        Toast.makeText(
+                            this,
+                            "Ya tienes una solicitud pendiente. Debes esperar su revisión.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@setOnClickListener
+                    }
+
                     val intent = Intent(this, AplicarTrabajoAlumnoActivity::class.java)
                     startActivity(intent)
                 }
@@ -151,7 +170,7 @@ class DashboardAlumnoActivity : AppCompatActivity() {
                     Toast.makeText(this, "Abrir detalle de bitácoras.", Toast.LENGTH_SHORT).show()
                 }
                 "SIN_TRABAJO" -> {
-                    val intent = Intent(this, AplicarTrabajoAlumnoActivity::class.java)
+                    val intent = Intent(this, DetalleSolicitudAlumnoActivity::class.java)
                     startActivity(intent)
                 }
                 else -> {
@@ -176,6 +195,11 @@ class DashboardAlumnoActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        cargarDashboard()
     }
 
     private fun irAlLogin() {

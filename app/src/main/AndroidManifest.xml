@@ -31,6 +31,8 @@
 
         <activity android:name=".ui.dashboard.alumno.AplicarTrabajoAlumnoActivity" />
 
+        <activity android:name=".ui.dashboard.alumno.DetalleSolicitudAlumnoActivity" />
+
     </application>
 
 </manifest>

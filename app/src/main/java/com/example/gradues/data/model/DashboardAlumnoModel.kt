@@ -25,5 +25,8 @@ data class DashboardAlumnoModel(
     val notaEtapa4: String,
 
     val textoBotonAccionInferior: String,
-    val tieneTrabajoAsignado: Boolean
+    val tieneTrabajoAsignado: Boolean,
+
+    val estadoSolicitudTexto: String = "Estado: Sin solicitud",
+    val detalleSolicitudTexto: String = "Todavía no has realizado una solicitud de modalidad."
 )
