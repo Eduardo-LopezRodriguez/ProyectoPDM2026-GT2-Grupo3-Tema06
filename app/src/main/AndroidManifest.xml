@@ -27,10 +27,51 @@
             android:name=".ui.dashboard.admin.DashboardAdminActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.dashboard.docente.GruposInvestigacionDocenteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dashboard.docente.CursosEspecializacionDocenteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dashboard.docente.ListadoPasantiasDocenteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dashboard.docente.DocumentosRevisionDocenteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dashboard.docente.BitacorasPendientesDocenteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dashboard.docente.DetalleBitacoraDocenteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dashboard.docente.DetallePasantiaDocenteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dashboard.docente.MemoriaPasantiaDocenteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.dashboard.docente.DetalleCursoEspecializacionDocenteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dashboard.docente.DetalleSubgrupoEspecializacionDocenteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dashboard.docente.NotasSubgrupoDocenteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.dashboard.docente.DetalleGrupoInvestigacionDocenteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.dashboard.docente.DetalleDocumentoDocenteActivity"
+            android:exported="false" />
+
         <activity android:name=".ui.dashboard.alumno.DashboardAlumnoActivity" />
-
         <activity android:name=".ui.dashboard.alumno.AplicarTrabajoAlumnoActivity" />
-
         <activity android:name=".ui.dashboard.alumno.DetalleSolicitudAlumnoActivity" />
 
     </application>

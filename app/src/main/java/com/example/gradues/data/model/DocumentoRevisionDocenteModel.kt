@@ -1,0 +1,17 @@
+// DocumentoRevisionDocenteModel.kt
+package com.example.gradues.data.model
+
+data class DocumentoRevisionDocenteModel(
+    val idDocumento: String,
+    val nombreDocumento: String,
+    val tipoDocumento: String,
+    val versionDocumento: Int,
+    val urlDocumento: String?,
+    val estadoDocumento: String,
+    val observacionDocumento: String?,
+    val fechaCarga: String,
+    val nombreTrabajo: String,
+    val nombreModalidad: String,
+    val carnetEstudiante: String,
+    val nombreEstudiante: String
+)

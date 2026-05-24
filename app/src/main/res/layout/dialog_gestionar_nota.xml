@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvDialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gestionar Nota"
+        android:textColor="#212121"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Etapa de Evaluación:"
+        android:textSize="16sp"
+        android:textColor="#333333" />
+
+    <Spinner
+        android:id="@+id/spinnerEtapa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Nota (0-10):"
+        android:textSize="16sp"
+        android:textColor="#333333" />
+
+    <EditText
+        android:id="@+id/etNota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:inputType="numberDecimal"
+        android:hint="Ej. 8.5"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Observación (opcional):"
+        android:textSize="16sp"
+        android:textColor="#333333" />
+
+    <EditText
+        android:id="@+id/etObservacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:inputType="textMultiLine"
+        android:lines="3"
+        android:gravity="top"
+        android:hint="Detalles de la evaluación..."
+        android:minHeight="48dp" />
+
+</LinearLayout>

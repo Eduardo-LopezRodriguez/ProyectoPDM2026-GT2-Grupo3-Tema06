@@ -39,6 +39,31 @@ class DashboardDocenteActivity : AppCompatActivity() {
         binding.btnCerrarSesion.setOnClickListener {
             mostrarDialogoCerrarSesion()
         }
+
+        binding.cardGruposInvestigacion.setOnClickListener { 
+            val intent = Intent(this, GruposInvestigacionDocenteActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardCursosEspecializacion.setOnClickListener { 
+            val intent = Intent(this, CursosEspecializacionDocenteActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardPasantias.setOnClickListener { 
+            val intent = Intent(this, ListadoPasantiasDocenteActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardDocumentosRevision.setOnClickListener { 
+            val intent = Intent(this, DocumentosRevisionDocenteActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardBitacorasPendientes.setOnClickListener { 
+            val intent = Intent(this, BitacorasPendientesDocenteActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun cargarDashboard() {
