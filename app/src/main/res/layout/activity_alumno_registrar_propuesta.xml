@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F2F2F2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#B30000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp">
+
+        <ImageButton
+            android:id="@+id/btnBackRegistrarPropuestaAlumno"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Regresar"
+            android:src="@android:drawable/ic_media_previous"
+            app:tint="@android:color/white" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/btnNotificacionesRegistrarPropuestaAlumno"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Notificaciones"
+            android:src="@android:drawable/ic_dialog_info"
+            app:tint="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/btnPerfilRegistrarPropuestaAlumno"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Perfil"
+            android:src="@android:drawable/ic_menu_myplaces"
+            app:tint="@android:color/white" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardResumenGrupoRegistrarPropuestaAlumno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#B30000"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:id="@+id/imgEscudoRegistrarPropuestaAlumno"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:contentDescription="Escudo"
+                            android:src="@android:drawable/ic_menu_gallery"
+                            app:tint="@android:color/white" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvNombreGrupoRegistrarPropuestaAlumno"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Grupo de Investigación 01"
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvTemaGrupoRegistrarPropuestaAlumno"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:text="Sistema de seguimiento académico"
+                                android:textColor="@android:color/white"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvTituloPantallaRegistrarPropuestaAlumno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:text="Registrar propuestas"
+                        android:textColor="#222222"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardPropuesta1Alumno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#B30000"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Propuesta 1"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <EditText
+                            android:id="@+id/etTituloPropuesta1Alumno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#F2F2F2"
+                            android:hint="Título de la propuesta"
+                            android:inputType="textCapSentences"
+                            android:minHeight="48dp"
+                            android:padding="12dp"
+                            android:textColor="#222222"
+                            android:textColorHint="#777777" />
+
+                        <EditText
+                            android:id="@+id/etDescripcionPropuesta1Alumno"
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp"
+                            android:layout_marginTop="10dp"
+                            android:background="#F2F2F2"
+                            android:gravity="top|start"
+                            android:hint="Descripción breve"
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:padding="12dp"
+                            android:textColor="#222222"
+                            android:textColorHint="#777777" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/layoutAdjuntarPropuesta1Alumno"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:contentDescription="Adjuntar archivo"
+                                    android:src="@android:drawable/ic_menu_upload"
+                                    app:tint="#B30000" />
+
+                                <TextView
+                                    android:id="@+id/tvAdjuntarPropuesta1Alumno"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:text="Adjuntar archivo"
+                                    android:textColor="#444444"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+
+                            <Button
+                                android:id="@+id/btnGuardarPropuesta1Alumno"
+                                android:layout_width="110dp"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="#D0D0D0"
+                                android:text="Guardar"
+                                android:textAllCaps="false"
+                                android:textColor="#222222" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardPropuesta2Alumno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#B30000"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Propuesta 2"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <EditText
+                            android:id="@+id/etTituloPropuesta2Alumno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#F2F2F2"
+                            android:hint="Título de la propuesta"
+                            android:inputType="textCapSentences"
+                            android:minHeight="48dp"
+                            android:padding="12dp"
+                            android:textColor="#222222"
+                            android:textColorHint="#777777" />
+
+                        <EditText
+                            android:id="@+id/etDescripcionPropuesta2Alumno"
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp"
+                            android:layout_marginTop="10dp"
+                            android:background="#F2F2F2"
+                            android:gravity="top|start"
+                            android:hint="Descripción breve"
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:padding="12dp"
+                            android:textColor="#222222"
+                            android:textColorHint="#777777" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/layoutAdjuntarPropuesta2Alumno"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:contentDescription="Adjuntar archivo"
+                                    android:src="@android:drawable/ic_menu_upload"
+                                    app:tint="#B30000" />
+
+                                <TextView
+                                    android:id="@+id/tvAdjuntarPropuesta2Alumno"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:text="Adjuntar archivo"
+                                    android:textColor="#444444"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+
+                            <Button
+                                android:id="@+id/btnGuardarPropuesta2Alumno"
+                                android:layout_width="110dp"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="#D0D0D0"
+                                android:text="Guardar"
+                                android:textAllCaps="false"
+                                android:textColor="#222222" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:layout_marginBottom="18dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnGuardarBorradoresAlumno"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="#D0D0D0"
+                    android:text="Guardar borradores"
+                    android:textAllCaps="false"
+                    android:textColor="#222222" />
+
+                <Button
+                    android:id="@+id/btnEnviarPropuestasAlumno"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="#B30000"
+                    android:text="Enviar propuestas"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomNavRegistrarPropuestaAlumno"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="#424242"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp">
+
+        <LinearLayout
+            android:id="@+id/itemInicioRegistrarPropuestaAlumno"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#B30000"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="Inicio"
+                android:src="@android:drawable/ic_menu_view"
+                android:tint="@android:color/white"
+                tools:ignore="UseAppTint" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/itemGrupoRegistrarPropuestaAlumno"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="Grupo"
+                android:src="@android:drawable/ic_menu_myplaces"
+                app:tint="@android:color/white"
+                tools:ignore="UseAppTint" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/itemPerfilRegistrarPropuestaAlumno"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="Perfil"
+                android:src="@android:drawable/ic_menu_info_details"
+                app:tint="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

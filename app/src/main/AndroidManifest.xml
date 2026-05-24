@@ -81,6 +81,12 @@
             android:name=".ui.dashboard.admin.DetalleSolicitudAdminActivity"
             android:exported="false" />
 
+        <activity android:name=".ui.dashboard.alumno.AlumnoGrupoDetalleActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoRegistrarPropuestaActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoTesisActivity" />
+
+        <activity android:name=".ui.dashboard.alumno.AlumnoPasantiaDetalleActivity" />
+
     </application>
 
 </manifest>

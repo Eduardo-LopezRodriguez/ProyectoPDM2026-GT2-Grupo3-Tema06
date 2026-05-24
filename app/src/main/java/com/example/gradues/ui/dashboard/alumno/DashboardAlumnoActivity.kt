@@ -10,6 +10,7 @@ import com.example.gradues.data.db.DatabaseHelper
 import com.example.gradues.databinding.ActivityDashboardAlumnoBinding
 import com.example.gradues.ui.login.LoginActivity
 import com.example.gradues.utils.SessionManager
+import com.example.gradues.ui.dashboard.alumno.AlumnoGrupoDetalleActivity
 import com.example.gradues.ui.dashboard.alumno.AplicarTrabajoAlumnoActivity
 import com.example.gradues.ui.dashboard.alumno.DetalleSolicitudAlumnoActivity
 
@@ -18,6 +19,7 @@ class DashboardAlumnoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardAlumnoBinding
     private lateinit var dashboardAlumnoDao: DashboardAlumnoDao
     private lateinit var sessionManager: SessionManager
+    private var tipoDashboardActual: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +70,22 @@ class DashboardAlumnoActivity : AppCompatActivity() {
         }
 
         binding.itemGrupoAlumno.setOnClickListener {
-            Toast.makeText(this, "Detalle de grupo pendiente de implementar.", Toast.LENGTH_SHORT).show()
+            when (tipoDashboardActual) {
+                "INVESTIGACION" -> {
+                    val intent = Intent(this, AlumnoGrupoDetalleActivity::class.java)
+                    startActivity(intent)
+                }
+                "ESPECIALIZACION" -> {
+                    Toast.makeText(this, "Detalle de grupo de especialización pendiente.", Toast.LENGTH_SHORT).show()
+                }
+                "PASANTIA" -> {
+                    val intent = Intent(this, AlumnoPasantiaDetalleActivity::class.java)
+                    startActivity(intent)
+                }
+                else -> {
+                    Toast.makeText(this, "Aún no tienes un grupo asignado.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         binding.itemPerfilAlumno.setOnClickListener {
@@ -91,6 +108,8 @@ class DashboardAlumnoActivity : AppCompatActivity() {
             Toast.makeText(this, "No se encontró información del alumno.", Toast.LENGTH_SHORT).show()
             return
         }
+
+        tipoDashboardActual = dashboard.tipoDashboard
 
         binding.tvSaludoAlumno.text = "¡Hola, ${dashboard.nombreCompleto}!"
         binding.tvCorreoAlumno.text = dashboard.correoUsuario.ifBlank { dashboard.carnetUsuario }
@@ -125,13 +144,15 @@ class DashboardAlumnoActivity : AppCompatActivity() {
         binding.btnAccionPrincipalAlumno.setOnClickListener {
             when (tipoDashboard) {
                 "INVESTIGACION" -> {
-                    Toast.makeText(this, "Abrir detalle del grupo de investigación.", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, AlumnoGrupoDetalleActivity::class.java)
+                    startActivity(intent)
                 }
                 "ESPECIALIZACION" -> {
                     Toast.makeText(this, "Abrir detalle del grupo de especialización.", Toast.LENGTH_SHORT).show()
                 }
                 "PASANTIA" -> {
-                    Toast.makeText(this, "Abrir detalle de la pasantía.", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, AlumnoPasantiaDetalleActivity::class.java)
+                    startActivity(intent)
                 }
                 "SIN_TRABAJO" -> {
                     val idSesion = sessionManager.getIdUsuario()?.trim().orEmpty()
@@ -163,8 +184,12 @@ class DashboardAlumnoActivity : AppCompatActivity() {
 
         binding.btnDetalleBloqueSecundario.setOnClickListener {
             when (tipoDashboard) {
-                "INVESTIGACION", "ESPECIALIZACION" -> {
-                    Toast.makeText(this, "Abrir detalle de propuestas.", Toast.LENGTH_SHORT).show()
+                "INVESTIGACION" -> {
+                    val intent = Intent(this, AlumnoRegistrarPropuestaActivity::class.java)
+                    startActivity(intent)
+                }
+                "ESPECIALIZACION" -> {
+                    Toast.makeText(this, "Abrir detalle de propuestas de especialización.", Toast.LENGTH_SHORT).show()
                 }
                 "PASANTIA" -> {
                     Toast.makeText(this, "Abrir detalle de bitácoras.", Toast.LENGTH_SHORT).show()
@@ -181,8 +206,12 @@ class DashboardAlumnoActivity : AppCompatActivity() {
 
         binding.btnAccionInferiorAlumno.setOnClickListener {
             when (tipoDashboard) {
-                "INVESTIGACION", "ESPECIALIZACION" -> {
-                    Toast.makeText(this, "Abrir registro de propuestas.", Toast.LENGTH_SHORT).show()
+                "INVESTIGACION" -> {
+                    val intent = Intent(this, AlumnoRegistrarPropuestaActivity::class.java)
+                    startActivity(intent)
+                }
+                "ESPECIALIZACION" -> {
+                    Toast.makeText(this, "Abrir registro de propuestas de especialización.", Toast.LENGTH_SHORT).show()
                 }
                 "PASANTIA" -> {
                     Toast.makeText(this, "Abrir registro de bitácoras.", Toast.LENGTH_SHORT).show()
@@ -196,6 +225,8 @@ class DashboardAlumnoActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
     override fun onResume() {
         super.onResume()

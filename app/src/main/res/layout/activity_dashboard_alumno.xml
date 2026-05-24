@@ -22,7 +22,8 @@
             android:background="@android:color/transparent"
             android:contentDescription="Menú"
             android:src="@android:drawable/ic_menu_sort_by_size"
-            app:tint="@android:color/white" />
+            app:tint="@android:color/white"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <View
             android:layout_width="0dp"
@@ -36,7 +37,8 @@
             android:background="@android:color/transparent"
             android:contentDescription="Notificaciones"
             android:src="@android:drawable/ic_dialog_info"
-            app:tint="@android:color/white" />
+            app:tint="@android:color/white"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <ImageButton
             android:id="@+id/btnPerfilAlumno"
@@ -47,7 +49,7 @@
             android:contentDescription="Perfil"
             android:src="@android:drawable/ic_menu_myplaces"
             app:tint="@android:color/white"
-            tools:ignore="UseAppTint" />
+            tools:ignore="UseAppTint,TouchTargetSizeCheck" />
     </LinearLayout>
 
     <ScrollView
