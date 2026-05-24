@@ -192,7 +192,8 @@ class DashboardAlumnoActivity : AppCompatActivity() {
                     Toast.makeText(this, "Abrir detalle de propuestas de especialización.", Toast.LENGTH_SHORT).show()
                 }
                 "PASANTIA" -> {
-                    Toast.makeText(this, "Abrir detalle de bitácoras.", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, AlumnoBitacorasActivity::class.java)
+                    startActivity(intent)
                 }
                 "SIN_TRABAJO" -> {
                     val intent = Intent(this, DetalleSolicitudAlumnoActivity::class.java)
@@ -214,7 +215,8 @@ class DashboardAlumnoActivity : AppCompatActivity() {
                     Toast.makeText(this, "Abrir registro de propuestas de especialización.", Toast.LENGTH_SHORT).show()
                 }
                 "PASANTIA" -> {
-                    Toast.makeText(this, "Abrir registro de bitácoras.", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, AlumnoRegistrarBitacoraActivity::class.java)
+                    startActivity(intent)
                 }
                 "SIN_TRABAJO" -> {
                     Toast.makeText(this, "Abrir pantalla para aplicar a trabajo.", Toast.LENGTH_SHORT).show()

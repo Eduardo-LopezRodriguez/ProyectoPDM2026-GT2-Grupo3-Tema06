@@ -28,21 +28,24 @@ class AlumnoGrupoDetalleActivity : AppCompatActivity() {
         configurarEventos()
     }
 
+    override fun onResume() {
+        super.onResume()
+        cargarDatosGrupo()
+    }
+
     private fun cargarDatosGrupo() {
-        val idSesion = sessionManager.getIdUsuario()?.trim().orEmpty()
+        val idSesion = sessionManager.getIdUsuario().trim()
 
         if (idSesion.isEmpty()) {
-            mostrarMensaje("No se encontró la sesión del alumno")
+            mostrarMensaje("No se encontro la sesion del alumno")
             finish()
             return
         }
 
-        mostrarMensaje("Sesión actual: $idSesion")
-
         val grupo = alumnoGrupoDetalleDao.obtenerGrupoInvestigacionAlumno(idSesion)
 
         if (grupo == null) {
-            mostrarMensaje("No se encontró información del grupo")
+            mostrarMensaje("No se encontro informacion del grupo")
             finish()
             return
         }
@@ -66,20 +69,20 @@ class AlumnoGrupoDetalleActivity : AppCompatActivity() {
         binding.tvResumenJuradosGrupoAlumno.text = grupo.resumenPropuestas
         binding.tvDescripcionTesisGrupoAlumno.text = grupo.descripcionTesis
         binding.tvEstadoTesisGrupoAlumno.text = "Estado: ${grupo.estadoTesis}"
-        binding.tvUltimaVersionTesisGrupoAlumno.text = "Última versión: ${grupo.ultimaVersionTesis}"
+        binding.tvUltimaVersionTesisGrupoAlumno.text = "Ultima version: ${grupo.ultimaVersionTesis}"
 
         binding.tvNotaEtapa1GrupoAlumno.text = "Etapa 1: ${grupo.notaEtapa1}"
         binding.tvNotaEtapa2GrupoAlumno.text = "Etapa 2: ${grupo.notaEtapa2}"
         binding.tvNotaEtapa3GrupoAlumno.text = "Etapa 3: ${grupo.notaEtapa3}"
         binding.tvNotaEtapa4GrupoAlumno.text = "Etapa 4: ${grupo.notaEtapa4}"
 
-        binding.tvPromedioAlumnoGrupo.text = "Mi promedio: ${calcularPromedio(grupo)}"
-        binding.tvPromedioGrupalGrupo.text = "Promedio grupal: ${calcularPromedio(grupo)}"
+        val promedio = calcularPromedio(grupo)
+        binding.tvPromedioAlumnoGrupo.text = "Mi promedio: $promedio"
+        binding.tvPromedioGrupalGrupo.text = "Promedio grupal: $promedio"
     }
 
     private fun pintarIntegrante(posicion: Int, integrantes: List<String>) {
         val texto = if (posicion < integrantes.size) integrantes[posicion] else "Sin integrante"
-
         val nombre: String
         val carnet: String
 
@@ -117,8 +120,7 @@ class AlumnoGrupoDetalleActivity : AppCompatActivity() {
 
         if (notas.isEmpty()) return "--"
 
-        val promedio = notas.average()
-        return String.format("%.2f", promedio)
+        return String.format("%.2f", notas.average())
     }
 
     private fun configurarEventos() {
@@ -139,25 +141,24 @@ class AlumnoGrupoDetalleActivity : AppCompatActivity() {
         }
 
         binding.btnVerPropuestasGrupoAlumno.setOnClickListener {
-            val intent = Intent(this, AlumnoRegistrarPropuestaActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, AlumnoPropuestasDetalleActivity::class.java))
         }
 
         binding.btnSubirTesisGrupoAlumno.setOnClickListener {
-            val intent = Intent(this, AlumnoTesisActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, AlumnoTesisActivity::class.java))
         }
 
         binding.btnHistorialTesisGrupoAlumno.setOnClickListener {
-            mostrarMensaje("Historial de tesis pendiente")
+            startActivity(Intent(this, AlumnoTesisActivity::class.java))
         }
 
         binding.itemInicioGrupoAlumno.setOnClickListener {
+            startActivity(Intent(this, DashboardAlumnoActivity::class.java))
             finish()
         }
 
         binding.itemGrupoDetalleAlumno.setOnClickListener {
-            mostrarMensaje("Ya estás en Mi grupo")
+            mostrarMensaje("Ya estas en Mi grupo")
         }
 
         binding.itemPerfilGrupoAlumno.setOnClickListener {

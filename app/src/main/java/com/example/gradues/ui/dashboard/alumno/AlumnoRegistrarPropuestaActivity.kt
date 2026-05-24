@@ -4,29 +4,58 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.gradues.data.dao.AlumnoGrupoDetalleDao
+import com.example.gradues.data.db.DatabaseHelper
 import com.example.gradues.databinding.ActivityAlumnoRegistrarPropuestaBinding
+import com.example.gradues.utils.SessionManager
 
 class AlumnoRegistrarPropuestaActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAlumnoRegistrarPropuestaBinding
+    private lateinit var alumnoGrupoDetalleDao: AlumnoGrupoDetalleDao
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAlumnoRegistrarPropuestaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        cargarDatosTemporales()
+        alumnoGrupoDetalleDao = AlumnoGrupoDetalleDao(DatabaseHelper(this))
+        sessionManager = SessionManager(this)
+
+        cargarDatosGrupo()
         configurarEventos()
     }
 
-    private fun cargarDatosTemporales() {
-        binding.tvNombreGrupoRegistrarPropuestaAlumno.text = "Grupo de Investigación 01"
-        binding.tvTemaGrupoRegistrarPropuestaAlumno.text = "Sistema de seguimiento académico"
+    private fun cargarDatosGrupo() {
+        val idSesion = sessionManager.getIdUsuario().trim()
+        if (idSesion.isBlank()) {
+            mostrarMensaje("No se encontro la sesion del alumno.")
+            finish()
+            return
+        }
+
+        val grupo = alumnoGrupoDetalleDao.obtenerGrupoInvestigacionAlumno(idSesion)
+        if (grupo == null) {
+            mostrarMensaje("No se encontro informacion del grupo.")
+            finish()
+            return
+        }
+
+        binding.tvNombreGrupoRegistrarPropuestaAlumno.text =
+            "${grupo.nombreGrupo} ${grupo.codigoGrupo}"
+        binding.tvTemaGrupoRegistrarPropuestaAlumno.text = grupo.temaTrabajo
     }
 
     private fun configurarEventos() {
-        binding.btnBackRegistrarPropuestaAlumno.setOnClickListener {
-            finish()
+        binding.btnBackRegistrarPropuestaAlumno.setOnClickListener { finish() }
+
+        binding.btnNotificacionesRegistrarPropuestaAlumno.setOnClickListener {
+            mostrarMensaje("Notificaciones pendientes")
+        }
+
+        binding.btnPerfilRegistrarPropuestaAlumno.setOnClickListener {
+            mostrarMensaje("Perfil pendiente")
         }
 
         binding.layoutAdjuntarPropuesta1Alumno.setOnClickListener {
@@ -38,15 +67,21 @@ class AlumnoRegistrarPropuestaActivity : AppCompatActivity() {
         }
 
         binding.btnGuardarPropuesta1Alumno.setOnClickListener {
-            mostrarMensaje("Borrador de propuesta 1 guardado")
+            guardarPropuesta(
+                binding.etTituloPropuesta1Alumno.text.toString().trim(),
+                binding.etDescripcionPropuesta1Alumno.text.toString().trim()
+            )
         }
 
         binding.btnGuardarPropuesta2Alumno.setOnClickListener {
-            mostrarMensaje("Borrador de propuesta 2 guardado")
+            guardarPropuesta(
+                binding.etTituloPropuesta2Alumno.text.toString().trim(),
+                binding.etDescripcionPropuesta2Alumno.text.toString().trim()
+            )
         }
 
         binding.btnGuardarBorradoresAlumno.setOnClickListener {
-            mostrarMensaje("Borradores guardados localmente")
+            mostrarMensaje("Los borradores quedan en pantalla hasta enviarlos.")
         }
 
         binding.btnEnviarPropuestasAlumno.setOnClickListener {
@@ -54,12 +89,13 @@ class AlumnoRegistrarPropuestaActivity : AppCompatActivity() {
         }
 
         binding.itemInicioRegistrarPropuestaAlumno.setOnClickListener {
+            startActivity(Intent(this, DashboardAlumnoActivity::class.java))
             finish()
         }
 
         binding.itemGrupoRegistrarPropuestaAlumno.setOnClickListener {
-            val intent = Intent(this, AlumnoGrupoDetalleActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, AlumnoGrupoDetalleActivity::class.java))
+            finish()
         }
 
         binding.itemPerfilRegistrarPropuestaAlumno.setOnClickListener {
@@ -68,20 +104,62 @@ class AlumnoRegistrarPropuestaActivity : AppCompatActivity() {
     }
 
     private fun enviarPropuestas() {
-        val titulo1 = binding.etTituloPropuesta1Alumno.text.toString().trim()
-        val descripcion1 = binding.etDescripcionPropuesta1Alumno.text.toString().trim()
-        val titulo2 = binding.etTituloPropuesta2Alumno.text.toString().trim()
-        val descripcion2 = binding.etDescripcionPropuesta2Alumno.text.toString().trim()
+        val propuestas = listOf(
+            binding.etTituloPropuesta1Alumno.text.toString().trim() to
+                binding.etDescripcionPropuesta1Alumno.text.toString().trim(),
+            binding.etTituloPropuesta2Alumno.text.toString().trim() to
+                binding.etDescripcionPropuesta2Alumno.text.toString().trim()
+        ).filter { (titulo, descripcion) ->
+            titulo.isNotBlank() || descripcion.isNotBlank()
+        }
 
-        val propuesta1Llena = titulo1.isNotEmpty() || descripcion1.isNotEmpty()
-        val propuesta2Llena = titulo2.isNotEmpty() || descripcion2.isNotEmpty()
-
-        if (!propuesta1Llena && !propuesta2Llena) {
-            mostrarMensaje("Debes completar al menos una propuesta")
+        if (propuestas.isEmpty()) {
+            mostrarMensaje("Debes completar al menos una propuesta.")
             return
         }
 
-        mostrarMensaje("Envío de propuestas pendiente de integración con DAO")
+        if (propuestas.any { (titulo, descripcion) -> titulo.isBlank() || descripcion.isBlank() }) {
+            mostrarMensaje("Cada propuesta enviada necesita titulo y descripcion.")
+            return
+        }
+
+        val guardadas = propuestas.count { (titulo, descripcion) ->
+            registrarPropuesta(titulo, descripcion, mostrarResultado = false)
+        }
+
+        if (guardadas == propuestas.size) {
+            mostrarMensaje("Propuestas enviadas.")
+            finish()
+        } else {
+            mostrarMensaje("Algunas propuestas no se pudieron guardar.")
+        }
+    }
+
+    private fun guardarPropuesta(titulo: String, descripcion: String) {
+        registrarPropuesta(titulo, descripcion, mostrarResultado = true)
+    }
+
+    private fun registrarPropuesta(
+        titulo: String,
+        descripcion: String,
+        mostrarResultado: Boolean
+    ): Boolean {
+        if (titulo.isBlank() || descripcion.isBlank()) {
+            if (mostrarResultado) mostrarMensaje("Completa titulo y descripcion.")
+            return false
+        }
+
+        val guardada = alumnoGrupoDetalleDao.registrarPropuesta(
+            sessionManager.getIdUsuario().trim(),
+            titulo,
+            descripcion
+        )
+
+        if (mostrarResultado) {
+            mostrarMensaje(if (guardada) "Propuesta guardada." else "No se pudo guardar la propuesta.")
+        }
+
+        return guardada
     }
 
     private fun mostrarMensaje(mensaje: String) {

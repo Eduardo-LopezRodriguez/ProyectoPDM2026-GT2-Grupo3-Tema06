@@ -4,31 +4,79 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.gradues.data.dao.AlumnoPasantiaDao
+import com.example.gradues.data.db.DatabaseHelper
 import com.example.gradues.databinding.ActivityAlumnoPasantiaDetalleBinding
+import com.example.gradues.utils.SessionManager
 
 class AlumnoPasantiaDetalleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAlumnoPasantiaDetalleBinding
+    private lateinit var alumnoPasantiaDao: AlumnoPasantiaDao
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAlumnoPasantiaDetalleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        cargarDatosTemporales()
+        alumnoPasantiaDao = AlumnoPasantiaDao(DatabaseHelper(this))
+        sessionManager = SessionManager(this)
+
+        cargarDetallePasantia()
         configurarEventos()
     }
 
-    private fun cargarDatosTemporales() {
-        binding.tvNombreAlumnoPasantia.text = "Eduardo López"
-        binding.tvCarnetAlumnoPasantia.text = "LR21008"
-        binding.tvDocentePasantia.text = "Docente a cargo: César Augusto"
-        binding.tvModalidadPasantia.text = "Pasantía profesional"
+    private fun cargarDetallePasantia() {
+        val idUsuario = sessionManager.getIdUsuario().trim()
 
-        binding.tvEmpresaPasantia.text = "Crowley Shared Services S.A. de C.V."
+        if (idUsuario.isBlank()) {
+            Toast.makeText(this, "No se encontro la sesion del alumno.", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+
+        val detalle = alumnoPasantiaDao.obtenerDetallePasantiaPorAlumno(idUsuario)
+        if (detalle == null) {
+            Toast.makeText(this, "No se encontro informacion de pasantia.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        binding.tvNombreAlumnoPasantia.text =
+            detalle.nombreAlumno.ifBlank { "Alumno" }
+
+        binding.tvCarnetAlumnoPasantia.text =
+            detalle.carnetAlumno.ifBlank { "Sin carnet" }
+
+        binding.tvDocentePasantia.text =
+            if (detalle.nombreDocente.isNotBlank()) {
+                "Docente a cargo: ${detalle.nombreDocente}"
+            } else {
+                "Docente a cargo: No asignado"
+            }
+
+        binding.tvModalidadPasantia.text = "Pasantia profesional"
+
+        binding.tvEmpresaPasantia.text =
+            detalle.nombreEmpresa.ifBlank { "Empresa no disponible" }
+
         binding.tvDireccionPasantia.text =
-            "Avenida Olímpica, entre 65 y 67 Avenida Sur, Colonia Escalón, Edificio Corporativo San Salvador"
-        binding.tvSupervisorPasantia.text = "Reporta a: Einer Villafuerte"
+            if (detalle.rubroEmpresa.isNotBlank()) {
+                "Rubro: ${detalle.rubroEmpresa}"
+            } else {
+                "Rubro no disponible"
+            }
+
+        binding.tvSupervisorPasantia.text =
+            if (detalle.nombrePersonero.isNotBlank()) {
+                if (detalle.cargoPersonero.isNotBlank()) {
+                    "Reporta a: ${detalle.nombrePersonero} (${detalle.cargoPersonero})"
+                } else {
+                    "Reporta a: ${detalle.nombrePersonero}"
+                }
+            } else {
+                "Reporta a: No asignado"
+            }
     }
 
     private fun configurarEventos() {
@@ -45,21 +93,20 @@ class AlumnoPasantiaDetalleActivity : AppCompatActivity() {
         }
 
         binding.btnMisBitacorasPasantia.setOnClickListener {
-            mostrarMensaje("Pantalla de bitácoras pendiente")
+            startActivity(Intent(this, AlumnoBitacorasActivity::class.java))
         }
 
         binding.btnSubirMemoriaPasantia.setOnClickListener {
-            mostrarMensaje("Pantalla de memoria pendiente")
+            startActivity(Intent(this, AlumnoMemoriaActivity::class.java))
         }
 
         binding.itemInicioPasantiaAlumno.setOnClickListener {
-            val intent = Intent(this, DashboardAlumnoActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, DashboardAlumnoActivity::class.java))
             finish()
         }
 
         binding.itemGrupoPasantiaAlumno.setOnClickListener {
-            mostrarMensaje("Ya estás en Mi pasantía")
+            mostrarMensaje("Ya estas en Mi pasantia")
         }
 
         binding.itemPerfilPasantiaAlumno.setOnClickListener {
