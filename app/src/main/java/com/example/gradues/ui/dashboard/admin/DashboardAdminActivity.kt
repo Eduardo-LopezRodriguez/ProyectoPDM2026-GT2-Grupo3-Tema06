@@ -46,11 +46,8 @@ class DashboardAdminActivity : AppCompatActivity() {
         }
 
         binding.btnVerTrabajos.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Pantalla de trabajos de graduación pendiente.",
-                Toast.LENGTH_LONG
-            ).show()
+            val intent = Intent(this, TrabajosGraduacionAdminActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnActualizar.setOnClickListener {
