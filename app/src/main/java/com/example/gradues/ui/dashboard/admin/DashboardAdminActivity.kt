@@ -62,6 +62,14 @@ class DashboardAdminActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (::dashboardAdminDao.isInitialized) {
+            cargarDashboard()
+        }
+    }
+
     private fun cargarDashboard() {
         val idUsuario = sessionManager.getIdUsuario()
 
