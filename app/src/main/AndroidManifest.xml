@@ -44,6 +44,10 @@
             android:name=".ui.dashboard.admin.TrabajosGraduacionAdminActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.dashboard.admin.GestionUsuariosAdminActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
