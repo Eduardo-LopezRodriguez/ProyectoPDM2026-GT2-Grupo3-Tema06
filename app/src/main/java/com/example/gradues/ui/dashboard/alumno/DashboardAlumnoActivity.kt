@@ -76,7 +76,8 @@ class DashboardAlumnoActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "ESPECIALIZACION" -> {
-                    Toast.makeText(this, "Detalle de grupo de especialización pendiente.", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, DetalleSubgrupoEspecializacionActivity::class.java)
+                    startActivity(intent)
                 }
                 "PASANTIA" -> {
                     val intent = Intent(this, AlumnoPasantiaDetalleActivity::class.java)
@@ -148,7 +149,8 @@ class DashboardAlumnoActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "ESPECIALIZACION" -> {
-                    Toast.makeText(this, "Abrir detalle del grupo de especialización.", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, DetalleSubgrupoEspecializacionActivity::class.java)
+                    startActivity(intent)
                 }
                 "PASANTIA" -> {
                     val intent = Intent(this, AlumnoPasantiaDetalleActivity::class.java)
@@ -189,7 +191,7 @@ class DashboardAlumnoActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "ESPECIALIZACION" -> {
-                    Toast.makeText(this, "Abrir detalle de propuestas de especialización.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Detalle pendiente de implementar", Toast.LENGTH_SHORT).show()
                 }
                 "PASANTIA" -> {
                     Toast.makeText(this, "Abrir detalle de bitácoras.", Toast.LENGTH_SHORT).show()
@@ -211,7 +213,8 @@ class DashboardAlumnoActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "ESPECIALIZACION" -> {
-                    Toast.makeText(this, "Abrir registro de propuestas de especialización.", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, RegistrarPropuestasEspecializacionActivity::class.java)
+                    startActivity(intent)
                 }
                 "PASANTIA" -> {
                     Toast.makeText(this, "Abrir registro de bitácoras.", Toast.LENGTH_SHORT).show()

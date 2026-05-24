@@ -126,58 +126,66 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#B30000"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:padding="12dp">
 
-                    <ImageView
-                        android:id="@+id/imgEscudoTrabajoAlumno"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:contentDescription="Trabajo"
-                        android:src="@android:drawable/ic_menu_gallery"
-                        app:tint="@android:color/white"
-                        tools:ignore="UseAppTint" />
-
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="12dp"
-                        android:orientation="vertical">
+                        android:background="@drawable/bg_red_rounded"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
 
-                        <TextView
-                            android:id="@+id/tvTituloTarjetaPrincipal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Grupo de Investigación 01"
-                            android:textColor="@android:color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                        <ImageView
+                            android:id="@+id/imgEscudoTrabajoAlumno"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:contentDescription="Trabajo"
+                            android:src="@android:drawable/ic_menu_gallery"
+                            app:tint="@android:color/white"
+                            tools:ignore="UseAppTint" />
 
-                        <TextView
-                            android:id="@+id/tvSubtituloTarjetaPrincipal"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="Sistema de seguimiento académico"
-                            android:textColor="@android:color/white"
-                            android:textSize="14sp" />
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvTituloTarjetaPrincipal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Mi subgrupo"
+                                android:textColor="@android:color/white"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvSubtituloTarjetaPrincipal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="Curso de Desarrollo Web"
+                                android:textColor="@android:color/white"
+                                android:textSize="14sp" />
+                        </LinearLayout>
                     </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnAccionPrincipalAlumno"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/bg_button_green"
+                        android:text="Ver grupo"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-
-            <Button
-                android:id="@+id/btnAccionPrincipalAlumno"
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="#6AA86E"
-                android:text="Ver grupo"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardBloqueSecundarioAlumno"
@@ -341,10 +349,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="24dp"
-                android:backgroundTint="#B30000"
+                android:background="@drawable/bg_button_red"
                 android:text="Registrar propuestas"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnCerrarSesionAlumno"
@@ -361,19 +370,20 @@
     <LinearLayout
         android:id="@+id/bottomNavAlumno"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="#424242"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_bottom_nav"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="8dp">
+        android:padding="6dp">
 
         <LinearLayout
             android:id="@+id/itemInicioAlumno"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#B30000"
+            android:background="@drawable/bg_bottom_nav_active"
             android:gravity="center"
             android:orientation="vertical">
 
