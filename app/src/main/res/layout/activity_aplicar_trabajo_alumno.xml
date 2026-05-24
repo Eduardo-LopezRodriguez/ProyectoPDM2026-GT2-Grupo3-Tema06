@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F2F2F2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#B30000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <ImageButton
+            android:id="@+id/btnVolverAplicarTrabajo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Volver"
+            android:src="@android:drawable/ic_media_previous"
+            app:tint="@android:color/white"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:text="Aplicar a trabajo"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvTituloAplicarTrabajo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trabajos de graduación disponibles"
+            android:textColor="#222222"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvSubtituloAplicarTrabajo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Selecciona un trabajo registrado para solicitar tu incorporación"
+            android:textColor="#666666"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTrabajosDisponiblesAlumno"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingHorizontal="12dp"
+        android:paddingBottom="12dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <LinearLayout
+        android:id="@+id/layoutAccionesAplicarTrabajo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvTrabajoSeleccionadoAplicar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trabajo seleccionado: ninguno"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnAplicarTrabajoSeleccionado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#B30000"
+            android:enabled="false"
+            android:text="Aplicar a trabajo seleccionado"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+</LinearLayout>

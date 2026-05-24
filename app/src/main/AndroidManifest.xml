@@ -30,6 +30,12 @@
             android:name=".ui.dashboard.admin.SolicitudesModalidadAdminActivity"
             android:exported="false" />
 
+        <activity android:name=".ui.dashboard.alumno.DashboardAlumnoActivity" />
+
+        <activity android:name=".ui.dashboard.alumno.AplicarTrabajoAlumnoActivity" />
+
+        <activity android:name=".ui.dashboard.alumno.DetalleSolicitudAlumnoActivity" />
+
     </application>
 
 </manifest>

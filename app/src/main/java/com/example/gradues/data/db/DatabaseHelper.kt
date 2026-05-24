@@ -467,6 +467,17 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
         db.execSQL(
             """
             INSERT OR IGNORE INTO usuario VALUES (
+            8, 1, 'Alumno Sin Trabajo', '1234',
+            'Mario', 'José', 'Pérez', 'López',
+            'mt24001@ues.edu.sv', 'MT24001', NULL,
+            'Ingeniería de Sistemas Informáticos', 'Activo'
+            )
+            """.trimIndent()
+        )
+
+        db.execSQL(
+            """
+            INSERT OR IGNORE INTO usuario VALUES (
                 7, 3, 'Administrador General', '1234',
                 'Administrador', NULL, 'General', NULL,
                 'admin001@ues.edu.sv', 'ADMIN001', NULL,

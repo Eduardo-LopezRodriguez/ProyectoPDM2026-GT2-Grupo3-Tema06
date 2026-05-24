@@ -11,6 +11,7 @@ import android.content.Intent
 import android.widget.Toast
 import com.example.gradues.ui.dashboard.docente.DashboardDocenteActivity
 import com.example.gradues.ui.dashboard.admin.DashboardAdminActivity
+import com.example.gradues.ui.dashboard.alumno.DashboardAlumnoActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -102,11 +103,9 @@ class LoginActivity : AppCompatActivity() {
             }
 
             "alumno" -> {
-                Toast.makeText(
-                    this,
-                    "Dashboard de alumno pendiente de implementar.",
-                    Toast.LENGTH_LONG
-                ).show()
+                val intent = Intent(this, DashboardAlumnoActivity::class.java)
+                startActivity(intent)
+                finish()
             }
 
             else -> {
