@@ -11,6 +11,7 @@ import com.example.gradues.data.dao.SolicitudModalidadAdminDao
 import com.example.gradues.data.db.DatabaseHelper
 import com.example.gradues.data.model.SolicitudModalidadAdminModel
 import com.example.gradues.databinding.ActivitySolicitudesModalidadAdminBinding
+import android.content.Intent
 
 class SolicitudesModalidadAdminActivity : AppCompatActivity() {
 
@@ -26,6 +27,11 @@ class SolicitudesModalidadAdminActivity : AppCompatActivity() {
         solicitudDao = SolicitudModalidadAdminDao(DatabaseHelper(this))
 
         configurarEventos()
+        cargarSolicitudes()
+    }
+
+    override fun onResume() {
+        super.onResume()
         cargarSolicitudes()
     }
 
@@ -98,11 +104,14 @@ class SolicitudesModalidadAdminActivity : AppCompatActivity() {
             setBackgroundColor(0xFFB71C1C.toInt())
 
             setOnClickListener {
-                Toast.makeText(
+                val intent = Intent(
                     this@SolicitudesModalidadAdminActivity,
-                    "Detalle y aprobación se implementarán en el siguiente bloque.",
-                    Toast.LENGTH_LONG
-                ).show()
+                    DetalleSolicitudAdminActivity::class.java
+                )
+
+                intent.putExtra("idReferenciaSolicitud", solicitud.idReferenciaSolicitud)
+
+                startActivity(intent)
             }
         }
 
