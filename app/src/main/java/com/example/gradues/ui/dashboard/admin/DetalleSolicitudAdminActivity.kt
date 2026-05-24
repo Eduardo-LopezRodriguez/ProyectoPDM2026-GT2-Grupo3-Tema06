@@ -8,11 +8,15 @@ import com.example.gradues.data.dao.DetalleSolicitudAdminDao
 import com.example.gradues.data.db.DatabaseHelper
 import com.example.gradues.data.model.DetalleSolicitudAdminModel
 import com.example.gradues.databinding.ActivityDetalleSolicitudAdminBinding
+import android.widget.EditText
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.example.gradues.data.dao.ResultadoOperacionAdmin
 
 class DetalleSolicitudAdminActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetalleSolicitudAdminBinding
     private lateinit var detalleDao: DetalleSolicitudAdminDao
+    private var detalleActual: DetalleSolicitudAdminModel? = null
 
     private var idReferenciaSolicitud: Int = -1
 
@@ -35,19 +39,11 @@ class DetalleSolicitudAdminActivity : AppCompatActivity() {
         }
 
         binding.btnAprobar.setOnClickListener {
-            Toast.makeText(
-                this,
-                "La aprobación se implementará en el siguiente bloque.",
-                Toast.LENGTH_LONG
-            ).show()
+            mostrarDialogoAprobacion()
         }
 
         binding.btnRechazar.setOnClickListener {
-            Toast.makeText(
-                this,
-                "El rechazo se implementará en el siguiente bloque.",
-                Toast.LENGTH_LONG
-            ).show()
+            mostrarDialogoRechazo()
         }
     }
 
@@ -74,6 +70,7 @@ class DetalleSolicitudAdminActivity : AppCompatActivity() {
             return
         }
 
+        detalleActual = detalle
         pintarDetalle(detalle)
     }
 
@@ -121,6 +118,110 @@ class DetalleSolicitudAdminActivity : AppCompatActivity() {
         } else {
             binding.btnAprobar.alpha = 1f
             binding.btnRechazar.alpha = 1f
+        }
+    }
+
+    private fun mostrarDialogoAprobacion() {
+        val detalle = detalleActual
+
+        if (detalle == null) {
+            Toast.makeText(this, "No hay detalle cargado.", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        if (!detalle.estadoSolicitud.equals("Pendiente", ignoreCase = true)) {
+            Toast.makeText(this, "Solo se pueden aprobar solicitudes pendientes.", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Aprobar solicitud")
+            .setMessage(
+                """
+            ¿Deseas aprobar esta solicitud?
+            
+            Al aprobar, se creará el trabajo de graduación, la asignación de alumnos y el registro correspondiente según la modalidad.
+            """.trimIndent()
+            )
+            .setPositiveButton("Aprobar") { _, _ ->
+                aprobarSolicitud()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun aprobarSolicitud() {
+        val exito = detalleDao.aprobarSolicitudAgrupada(idReferenciaSolicitud)
+
+        if (exito) {
+            Toast.makeText(
+                this,
+                "Solicitud aprobada correctamente.",
+                Toast.LENGTH_LONG
+            ).show()
+
+            setResult(RESULT_OK)
+            finish()
+        } else {
+            Toast.makeText(
+                this,
+                "No se pudo aprobar: ${ResultadoOperacionAdmin.ultimoError}",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun mostrarDialogoRechazo() {
+        val detalle = detalleActual
+
+        if (detalle == null) {
+            Toast.makeText(this, "No hay detalle cargado.", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        if (!detalle.estadoSolicitud.equals("Pendiente", ignoreCase = true)) {
+            Toast.makeText(this, "Solo se pueden rechazar solicitudes pendientes.", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val input = EditText(this).apply {
+            hint = "Escriba una observación"
+            minLines = 2
+            setPadding(32, 16, 32, 16)
+        }
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Rechazar solicitud")
+            .setMessage("Ingrese una observación para el rechazo.")
+            .setView(input)
+            .setPositiveButton("Rechazar") { _, _ ->
+                rechazarSolicitud(input.text?.toString().orEmpty())
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun rechazarSolicitud(observacion: String) {
+        val exito = detalleDao.rechazarSolicitudAgrupada(
+            idReferenciaSolicitud = idReferenciaSolicitud,
+            observacion = observacion
+        )
+
+        if (exito) {
+            Toast.makeText(
+                this,
+                "Solicitud rechazada correctamente.",
+                Toast.LENGTH_LONG
+            ).show()
+
+            setResult(RESULT_OK)
+            finish()
+        } else {
+            Toast.makeText(
+                this,
+                "No se pudo rechazar: ${ResultadoOperacionAdmin.ultimoError}",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }

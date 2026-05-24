@@ -35,6 +35,7 @@ class SolicitudesModalidadAdminActivity : AppCompatActivity() {
         cargarSolicitudes()
     }
 
+
     private fun configurarEventos() {
         binding.btnActualizar.setOnClickListener {
             cargarSolicitudes()
