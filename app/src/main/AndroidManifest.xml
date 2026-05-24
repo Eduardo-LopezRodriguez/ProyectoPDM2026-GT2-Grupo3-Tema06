@@ -48,6 +48,10 @@
             android:name=".ui.dashboard.admin.GestionUsuariosAdminActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.dashboard.admin.RegistroUsuarioAdminActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

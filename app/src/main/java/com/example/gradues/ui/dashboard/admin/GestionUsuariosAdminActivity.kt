@@ -13,6 +13,7 @@ import com.example.gradues.data.model.UsuarioAdminModel
 import com.example.gradues.databinding.ActivityGestionUsuariosAdminBinding
 import com.example.gradues.utils.SessionManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import android.content.Intent
 
 class GestionUsuariosAdminActivity : AppCompatActivity() {
 
@@ -43,11 +44,8 @@ class GestionUsuariosAdminActivity : AppCompatActivity() {
 
     private fun configurarEventos() {
         binding.btnCrearUsuario.setOnClickListener {
-            Toast.makeText(
-                this,
-                "La pantalla de creación de usuario se implementará en el siguiente bloque.",
-                Toast.LENGTH_LONG
-            ).show()
+            val intent = Intent(this, RegistroUsuarioAdminActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnActualizar.setOnClickListener {
