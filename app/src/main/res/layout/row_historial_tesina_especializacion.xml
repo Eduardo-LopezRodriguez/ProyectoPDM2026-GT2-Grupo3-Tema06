@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:background="@drawable/bg_card_white"
+    android:orientation="vertical"
+    android:padding="14dp">
+
+    <TextView
+        android:id="@+id/tvVersionHistorialTesina"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Versión 1"
+        android:textColor="#222222"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvEstadoHistorialTesina"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_badge_gray"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="6dp"
+        android:text="Estado: Pendiente"
+        android:textColor="#222222"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvObservacionHistorialTesina"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Observación: Sin observaciones"
+        android:textColor="#555555"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvArchivoHistorialTesina"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Archivo: Sin archivo"
+        android:textColor="#555555"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvFechaHistorialTesina"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Fecha: Sin fecha"
+        android:textColor="#777777"
+        android:textSize="13sp" />
+</LinearLayout>

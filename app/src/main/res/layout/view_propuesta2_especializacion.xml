@@ -89,5 +89,14 @@
                 android:textAllCaps="false"
                 android:textColor="#222222" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvArchivoSeleccionadoPropuesta2Especializacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Sin archivo adjunto"
+            android:textColor="#555555"
+            android:textSize="13sp" />
     </LinearLayout>
 </LinearLayout>

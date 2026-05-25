@@ -87,8 +87,10 @@
 
         <activity android:name=".ui.dashboard.alumno.AlumnoPasantiaDetalleActivity" />
         <activity android:name=".ui.dashboard.alumno.DetalleSubgrupoEspecializacionActivity" />
+        <activity android:name=".ui.dashboard.alumno.DetallePropuestasEspecializacionActivity" />
         <activity android:name=".ui.dashboard.alumno.RegistrarPropuestasEspecializacionActivity" />
         <activity android:name=".ui.dashboard.alumno.TesinaGrupoEspecializacionActivity" />
+        <activity android:name=".ui.dashboard.alumno.HistorialTesinaEspecializacionActivity" />
 
     </application>
 

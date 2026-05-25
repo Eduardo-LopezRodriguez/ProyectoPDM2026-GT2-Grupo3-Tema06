@@ -191,7 +191,8 @@ class DashboardAlumnoActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "ESPECIALIZACION" -> {
-                    Toast.makeText(this, "Detalle pendiente de implementar", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, DetallePropuestasEspecializacionActivity::class.java)
+                    startActivity(intent)
                 }
                 "PASANTIA" -> {
                     Toast.makeText(this, "Abrir detalle de bitácoras.", Toast.LENGTH_SHORT).show()
