@@ -2,6 +2,7 @@ package com.example.gradues.data.dao
 
 import android.content.ContentValues
 import com.example.gradues.data.db.DatabaseHelper
+import com.example.gradues.data.model.DetallePropuestaEspecializacionAlumnoModel
 import com.example.gradues.data.model.PropuestaEspecializacionAlumnoModel
 
 class PropuestaEspecializacionAlumnoDao(
@@ -65,5 +66,55 @@ class PropuestaEspecializacionAlumnoDao(
         }
 
         return db.insert("propuesta_perfil", null, values) != -1L
+    }
+
+    fun obtenerPropuestasEspecializacionActiva(idSesion: String): List<DetallePropuestaEspecializacionAlumnoModel> {
+        val idTrabajo = obtenerIdTrabajoEspecializacionActivo(idSesion) ?: return emptyList()
+        return obtenerPropuestasPorTrabajo(idTrabajo)
+    }
+
+    private fun obtenerPropuestasPorTrabajo(idTrabajoGraduacion: Int): List<DetallePropuestaEspecializacionAlumnoModel> {
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery(
+            """
+                SELECT
+                    idPropuesta,
+                    idTrabajoGraduacion,
+                    COALESCE(tituloPropuesta, 'Sin título') AS tituloPropuesta,
+                    COALESCE(descripcionPropuesta, 'Sin descripción') AS descripcionPropuesta,
+                    COALESCE(estadoPropuesta, 'Sin estado') AS estadoPropuesta,
+                    observacionPropuesta,
+                    urlArchivo,
+                    COALESCE(fechaRegistro, '') AS fechaRegistro
+                FROM propuesta_perfil
+                WHERE idTrabajoGraduacion = ?
+                ORDER BY fechaRegistro DESC, idPropuesta DESC
+            """.trimIndent(),
+            arrayOf(idTrabajoGraduacion.toString())
+        )
+
+        val propuestas = mutableListOf<DetallePropuestaEspecializacionAlumnoModel>()
+        while (cursor.moveToNext()) {
+            propuestas.add(
+                DetallePropuestaEspecializacionAlumnoModel(
+                    idPropuesta = cursor.getInt(cursor.getColumnIndexOrThrow("idPropuesta")),
+                    idTrabajoGraduacion = cursor.getInt(cursor.getColumnIndexOrThrow("idTrabajoGraduacion")),
+                    tituloPropuesta = cursor.getString(cursor.getColumnIndexOrThrow("tituloPropuesta")),
+                    descripcionPropuesta = cursor.getString(cursor.getColumnIndexOrThrow("descripcionPropuesta")),
+                    estadoPropuesta = cursor.getString(cursor.getColumnIndexOrThrow("estadoPropuesta")),
+                    observacionPropuesta = getNullableString(cursor, "observacionPropuesta"),
+                    urlArchivo = getNullableString(cursor, "urlArchivo"),
+                    fechaRegistro = cursor.getString(cursor.getColumnIndexOrThrow("fechaRegistro"))
+                )
+            )
+        }
+
+        cursor.close()
+        return propuestas
+    }
+
+    private fun getNullableString(cursor: android.database.Cursor, column: String): String? {
+        val index = cursor.getColumnIndexOrThrow(column)
+        return if (cursor.isNull(index)) null else cursor.getString(index)
     }
 }

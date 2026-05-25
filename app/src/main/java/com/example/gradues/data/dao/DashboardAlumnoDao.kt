@@ -41,15 +41,45 @@ class DashboardAlumnoDao(private val dbHelper: DatabaseHelper) {
                     SELECT COUNT(*)
                     FROM propuesta_perfil pp
                     WHERE pp.idTrabajoGraduacion = tg.idTrabajoGraduacion
-                      AND UPPER(COALESCE(pp.estadoPropuesta, '')) = 'SELECCIONADA'
+                      AND UPPER(COALESCE(pp.estadoPropuesta, '')) = 'PENDIENTE'
+                ) AS propuestasPendientes,
+
+                (
+                    SELECT COUNT(*)
+                    FROM propuesta_perfil pp
+                    WHERE pp.idTrabajoGraduacion = tg.idTrabajoGraduacion
+                      AND UPPER(COALESCE(pp.estadoPropuesta, '')) = 'BORRADOR'
+                ) AS propuestasBorradores,
+
+                (
+                    SELECT COUNT(*)
+                    FROM propuesta_perfil pp
+                    WHERE pp.idTrabajoGraduacion = tg.idTrabajoGraduacion
+                      AND (
+                            UPPER(COALESCE(pp.estadoPropuesta, '')) = 'APROBADA'
+                            OR UPPER(COALESCE(pp.estadoPropuesta, '')) = 'SELECCIONADA'
+                          )
                 ) AS propuestasAprobadas,
 
                 (
                     SELECT COUNT(*)
                     FROM propuesta_perfil pp
                     WHERE pp.idTrabajoGraduacion = tg.idTrabajoGraduacion
-                      AND UPPER(COALESCE(pp.estadoPropuesta, '')) = 'DESCARTADA'
+                      AND (
+                            UPPER(COALESCE(pp.estadoPropuesta, '')) = 'DENEGADA'
+                            OR UPPER(COALESCE(pp.estadoPropuesta, '')) = 'DESCARTADA'
+                          )
                 ) AS propuestasDenegadas,
+
+                (
+                    SELECT COUNT(*)
+                    FROM propuesta_perfil pp
+                    WHERE pp.idTrabajoGraduacion = tg.idTrabajoGraduacion
+                      AND (
+                            UPPER(COALESCE(pp.estadoPropuesta, '')) = 'CON OBSERVACIÓN'
+                            OR UPPER(COALESCE(pp.estadoPropuesta, '')) = 'CON OBSERVACION'
+                          )
+                ) AS propuestasConObservacion,
 
                 (
                     SELECT ne.nota
@@ -162,8 +192,20 @@ class DashboardAlumnoDao(private val dbHelper: DatabaseHelper) {
             val estadoSolicitud = cursor.getString(cursor.getColumnIndexOrThrow("estadoSolicitud"))
             val nombreTrabajoPropuesto = cursor.getString(cursor.getColumnIndexOrThrow("nombreTrabajoPropuesto"))
 
+            val totalPropuestas = cursor.getInt(cursor.getColumnIndexOrThrow("totalPropuestas"))
+            val propuestasPendientes = cursor.getInt(cursor.getColumnIndexOrThrow("propuestasPendientes"))
+            val propuestasBorradores = cursor.getInt(cursor.getColumnIndexOrThrow("propuestasBorradores"))
             val propuestasAprobadas = cursor.getInt(cursor.getColumnIndexOrThrow("propuestasAprobadas"))
             val propuestasDenegadas = cursor.getInt(cursor.getColumnIndexOrThrow("propuestasDenegadas"))
+            val propuestasConObservacion = cursor.getInt(cursor.getColumnIndexOrThrow("propuestasConObservacion"))
+            val resumenPropuestas = formatearResumenPropuestas(
+                total = totalPropuestas,
+                pendientes = propuestasPendientes,
+                borradores = propuestasBorradores,
+                aprobadas = propuestasAprobadas,
+                denegadas = propuestasDenegadas,
+                conObservacion = propuestasConObservacion
+            )
             val totalBitacoras = cursor.getInt(cursor.getColumnIndexOrThrow("totalBitacoras"))
             val bitacorasPendientes = cursor.getInt(cursor.getColumnIndexOrThrow("bitacorasPendientes"))
 
@@ -223,7 +265,7 @@ class DashboardAlumnoDao(private val dbHelper: DatabaseHelper) {
                         mostrarBloquePropuestas = true,
                         tituloBloqueSecundario = "Estado de propuestas",
                         descripcionBloqueSecundario = nombreTrabajo,
-                        estadoBloqueSecundario = "Estado: $propuestasAprobadas aprobada, $propuestasDenegadas denegadas",
+                        estadoBloqueSecundario = resumenPropuestas,
                         textoBotonSecundario = "Ver detalle",
                         mostrarBloqueNotas = true,
                         notaEtapa1 = notaEtapa1,
@@ -250,7 +292,7 @@ class DashboardAlumnoDao(private val dbHelper: DatabaseHelper) {
                         mostrarBloquePropuestas = true,
                         tituloBloqueSecundario = "Estado de propuestas",
                         descripcionBloqueSecundario = if (nombreTrabajoPropuesto.isNotBlank()) nombreTrabajoPropuesto else nombreTrabajo,
-                        estadoBloqueSecundario = "Estado: $propuestasAprobadas aprobada, $propuestasDenegadas denegadas",
+                        estadoBloqueSecundario = resumenPropuestas,
                         textoBotonSecundario = "Ver detalle",
                         mostrarBloqueNotas = true,
                         notaEtapa1 = notaEtapa1,
@@ -320,6 +362,32 @@ class DashboardAlumnoDao(private val dbHelper: DatabaseHelper) {
             "--"
         } else {
             String.format(Locale.getDefault(), "%.2f", cursor.getDouble(index))
+        }
+    }
+
+    private fun formatearResumenPropuestas(
+        total: Int,
+        pendientes: Int,
+        borradores: Int,
+        aprobadas: Int,
+        denegadas: Int,
+        conObservacion: Int
+    ): String {
+        if (total == 0) return "Sin propuestas registradas"
+
+        val partes = listOf(
+            pendientes to "pendientes",
+            borradores to "borradores",
+            aprobadas to "aprobadas",
+            denegadas to "denegadas",
+            conObservacion to "con observación"
+        ).filter { it.first > 0 }
+            .joinToString(", ") { "${it.first} ${it.second}" }
+
+        return if (partes.isBlank()) {
+            "$total registradas"
+        } else {
+            "$total registradas, $partes"
         }
     }
 

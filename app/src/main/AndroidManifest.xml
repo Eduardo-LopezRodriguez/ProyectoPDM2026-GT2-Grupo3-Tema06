@@ -105,6 +105,28 @@
             android:name=".ui.dashboard.docente.DetalleDocumentoDocenteActivity"
             android:exported="false" />
 
+        <activity android:name=".ui.dashboard.alumno.DashboardAlumnoActivity" />
+        <activity android:name=".ui.dashboard.alumno.AplicarTrabajoAlumnoActivity" />
+        <activity android:name=".ui.dashboard.alumno.DetalleSolicitudAlumnoActivity" />
+
+        <activity
+            android:name=".ui.dashboard.admin.DetalleSolicitudAdminActivity"
+            android:exported="false" />
+
+        <activity android:name=".ui.dashboard.alumno.AlumnoGrupoDetalleActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoPropuestasDetalleActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoRegistrarPropuestaActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoTesisActivity" />
+
+        <activity android:name=".ui.dashboard.alumno.AlumnoPasantiaDetalleActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoBitacorasActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoRegistrarBitacoraActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoMemoriaActivity" />
+        <activity android:name=".ui.dashboard.alumno.DetalleSubgrupoEspecializacionActivity" />
+        <activity android:name=".ui.dashboard.alumno.DetallePropuestasEspecializacionActivity" />
+        <activity android:name=".ui.dashboard.alumno.RegistrarPropuestasEspecializacionActivity" />
+        <activity android:name=".ui.dashboard.alumno.TesinaGrupoEspecializacionActivity" />
+        <activity android:name=".ui.dashboard.alumno.HistorialTesinaEspecializacionActivity" />
 
     </application>
 
