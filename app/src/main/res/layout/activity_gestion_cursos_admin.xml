@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B71C1C"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gestión de cursos"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Cursos de especialización"
+            android:textColor="#FFCDD2"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <!-- Botón crear -->
+    <Button
+        android:id="@+id/btnCrearCurso"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="16dp"
+        android:backgroundTint="#B71C1C"
+        android:text="+ Crear nuevo curso"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+
+    <!-- Estado vacío -->
+    <TextView
+        android:id="@+id/tvSinCursos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="No hay cursos registrados."
+        android:textColor="#888888"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+    <!-- Lista de cursos -->
+    <ListView
+        android:id="@+id/lvCursos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@null"
+        android:padding="8dp" />
+
+</LinearLayout>
