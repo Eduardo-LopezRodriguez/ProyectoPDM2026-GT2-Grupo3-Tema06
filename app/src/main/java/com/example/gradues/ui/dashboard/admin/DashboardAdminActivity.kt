@@ -33,11 +33,8 @@ class DashboardAdminActivity : AppCompatActivity() {
 
     private fun configurarEventos() {
         binding.btnGestionUsuarios.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Pantalla de gestión de usuarios pendiente.",
-                Toast.LENGTH_LONG
-            ).show()
+            val intent = Intent(this, GestionUsuariosAdminActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnSolicitudesModalidad.setOnClickListener {
@@ -46,11 +43,8 @@ class DashboardAdminActivity : AppCompatActivity() {
         }
 
         binding.btnVerTrabajos.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Pantalla de trabajos de graduación pendiente.",
-                Toast.LENGTH_LONG
-            ).show()
+            val intent = Intent(this, TrabajosGraduacionAdminActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnActualizar.setOnClickListener {

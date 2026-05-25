@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="155dp"
+            android:background="#B71C1C"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Crear usuario"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Registro de cuentas del sistema"
+                android:textColor="#F5F5F5"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rol"
+                android:textColor="#212121"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spRol"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="#FFFFFF" />
+
+            <EditText
+                android:id="@+id/etPrimerNombre"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="14dp"
+                android:background="#FFFFFF"
+                android:hint="Primer nombre"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textColor="#212121"
+                android:textColorHint="#777777" />
+
+            <EditText
+                android:id="@+id/etSegundoNombre"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:hint="Segundo nombre (opcional)"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textColor="#212121"
+                android:textColorHint="#777777" />
+
+            <EditText
+                android:id="@+id/etPrimerApellido"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:hint="Primer apellido"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textColor="#212121"
+                android:textColorHint="#777777" />
+
+            <EditText
+                android:id="@+id/etSegundoApellido"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:hint="Segundo apellido (opcional)"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textColor="#212121"
+                android:textColorHint="#777777" />
+
+            <EditText
+                android:id="@+id/etCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:hint="Correo institucional"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                android:textColor="#212121"
+                android:textColorHint="#777777" />
+
+            <EditText
+                android:id="@+id/etCarnet"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:hint="Carnet o código"
+                android:inputType="textCapCharacters"
+                android:padding="12dp"
+                android:textColor="#212121"
+                android:textColorHint="#777777" />
+
+            <EditText
+                android:id="@+id/etDui"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:hint="DUI (opcional)"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="#212121"
+                android:textColorHint="#777777" />
+
+            <EditText
+                android:id="@+id/etCarrera"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:hint="Carrera (si aplica)"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="#212121"
+                android:textColorHint="#777777" />
+
+            <EditText
+                android:id="@+id/etContrasenia"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:padding="12dp"
+                android:textColor="#212121"
+                android:textColorHint="#777777" />
+
+            <Button
+                android:id="@+id/btnGuardar"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="22dp"
+                android:backgroundTint="#B71C1C"
+                android:text="Guardar usuario"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnCancelar"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#FFFFFF"
+                android:text="Cancelar"
+                android:textAllCaps="false"
+                android:textColor="#B71C1C" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
