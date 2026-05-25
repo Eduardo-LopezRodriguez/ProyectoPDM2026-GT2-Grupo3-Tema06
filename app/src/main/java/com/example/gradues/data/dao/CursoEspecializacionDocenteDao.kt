@@ -8,6 +8,7 @@ import com.example.gradues.data.db.DatabaseHelper
 import com.example.gradues.data.model.CursoEspecializacionDocenteModel
 import com.example.gradues.data.model.EstudianteSubgrupoModel
 import com.example.gradues.data.model.NotaEtapaDocenteModel
+import com.example.gradues.data.model.PropuestaEspecializacionDocenteModel
 import com.example.gradues.data.model.SubgrupoEspecializacionDocenteModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -391,6 +392,76 @@ class CursoEspecializacionDocenteDao(private val dbHelper: DatabaseHelper) {
         }
         cursor.close()
         return notas
+    }
+
+    fun obtenerPropuestasEspecializacion(idTrabajoGraduacion: String): List<PropuestaEspecializacionDocenteModel> {
+        val propuestas = mutableListOf<PropuestaEspecializacionDocenteModel>()
+        val db = dbHelper.readableDatabase
+
+        val cursor = db.rawQuery(
+            """
+            SELECT
+                pp.idPropuesta,
+                pp.idTrabajoGraduacion,
+                COALESCE(pp.tituloPropuesta, 'Sin título') AS tituloPropuesta,
+                COALESCE(pp.descripcionPropuesta, 'Sin descripción') AS descripcionPropuesta,
+                COALESCE(pp.estadoPropuesta, 'Pendiente') AS estadoPropuesta,
+                pp.observacionPropuesta,
+                pp.urlArchivo,
+                COALESCE(pp.fechaRegistro, '') AS fechaRegistro,
+                COALESCE(sg.nombreSubgrupo, 'Subgrupo') AS nombreSubgrupo,
+                COALESCE(gtge.nombreCurso, 'Curso de especialización') AS nombreCurso
+            FROM propuesta_perfil pp
+            INNER JOIN trabajo_graduacion tg
+                ON tg.idTrabajoGraduacion = pp.idTrabajoGraduacion
+            LEFT JOIN subgrupo_tge sg
+                ON sg.idTrabajoGraduacion = tg.idTrabajoGraduacion
+            LEFT JOIN grupo_tge gtge
+                ON gtge.idGrupoTGE = sg.idGrupoTGE
+            WHERE pp.idTrabajoGraduacion = ?
+            ORDER BY pp.fechaRegistro DESC, pp.idPropuesta DESC
+            """.trimIndent(),
+            arrayOf(idTrabajoGraduacion)
+        )
+
+        while (cursor.moveToNext()) {
+            propuestas.add(
+                PropuestaEspecializacionDocenteModel(
+                    idPropuesta = getInt(cursor, "idPropuesta"),
+                    idTrabajoGraduacion = getInt(cursor, "idTrabajoGraduacion"),
+                    tituloPropuesta = getString(cursor, "tituloPropuesta"),
+                    descripcionPropuesta = getString(cursor, "descripcionPropuesta"),
+                    estadoPropuesta = getString(cursor, "estadoPropuesta"),
+                    observacionPropuesta = getString(cursor, "observacionPropuesta").ifBlank { null },
+                    urlArchivo = getString(cursor, "urlArchivo").ifBlank { null },
+                    fechaRegistro = getString(cursor, "fechaRegistro"),
+                    nombreSubgrupo = getString(cursor, "nombreSubgrupo"),
+                    nombreCurso = getString(cursor, "nombreCurso")
+                )
+            )
+        }
+
+        cursor.close()
+        return propuestas
+    }
+
+    fun actualizarRevisionPropuestaEspecializacion(
+        idPropuesta: Int,
+        estadoPropuesta: String,
+        observacionPropuesta: String?
+    ): Boolean {
+        val db = dbHelper.writableDatabase
+        val values = ContentValues().apply {
+            put("estadoPropuesta", estadoPropuesta)
+            put("observacionPropuesta", observacionPropuesta)
+        }
+
+        return db.update(
+            "propuesta_perfil",
+            values,
+            "idPropuesta = ?",
+            arrayOf(idPropuesta.toString())
+        ) > 0
     }
 
     private fun obtenerIdAlumnoTrabajo(idUsuario: String, idTrabajoGraduacion: String): Int? {
