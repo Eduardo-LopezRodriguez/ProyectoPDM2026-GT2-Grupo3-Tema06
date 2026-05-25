@@ -300,10 +300,14 @@ class EspecializacionAlumnoDao(
         val db = dbHelper.readableDatabase
         val cursor = db.rawQuery(
             """
-            SELECT AVG(nota) AS promedio
+            SELECT (
+                COALESCE(MAX(CASE WHEN numeroEtapa = 1 THEN nota END), 0) +
+                COALESCE(MAX(CASE WHEN numeroEtapa = 2 THEN nota END), 0) +
+                COALESCE(MAX(CASE WHEN numeroEtapa = 3 THEN nota END), 0) +
+                COALESCE(MAX(CASE WHEN numeroEtapa = 4 THEN nota END), 0)
+            ) / 4.0 AS promedio
             FROM nota_etapa
             WHERE idAlumnoTrabajo = ?
-              AND nota IS NOT NULL
             """.trimIndent(),
             arrayOf(idAlumnoTrabajo.toString())
         )
@@ -317,12 +321,23 @@ class EspecializacionAlumnoDao(
         val db = dbHelper.readableDatabase
         val cursor = db.rawQuery(
             """
-            SELECT AVG(ne.nota) AS promedio
-            FROM nota_etapa ne
-            INNER JOIN alumno_trabajo at
-                ON at.idAlumnoTrabajo = ne.idAlumnoTrabajo
-            WHERE at.idTrabajoGraduacion = ?
-              AND ne.nota IS NOT NULL
+            SELECT AVG(promedioAlumno) AS promedio
+            FROM (
+                SELECT
+                    at.idAlumnoTrabajo,
+                    (
+                        COALESCE(MAX(CASE WHEN ne.numeroEtapa = 1 THEN ne.nota END), 0) +
+                        COALESCE(MAX(CASE WHEN ne.numeroEtapa = 2 THEN ne.nota END), 0) +
+                        COALESCE(MAX(CASE WHEN ne.numeroEtapa = 3 THEN ne.nota END), 0) +
+                        COALESCE(MAX(CASE WHEN ne.numeroEtapa = 4 THEN ne.nota END), 0)
+                    ) / 4.0 AS promedioAlumno
+                FROM alumno_trabajo at
+                LEFT JOIN nota_etapa ne
+                    ON ne.idAlumnoTrabajo = at.idAlumnoTrabajo
+                WHERE at.idTrabajoGraduacion = ?
+                  AND UPPER(COALESCE(at.estadoAlumnoTrabajo, 'ACTIVO')) = 'ACTIVO'
+                GROUP BY at.idAlumnoTrabajo
+            )
             """.trimIndent(),
             arrayOf(idTrabajoGraduacion.toString())
         )

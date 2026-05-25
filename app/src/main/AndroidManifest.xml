@@ -62,6 +62,9 @@
             android:name=".ui.dashboard.docente.DetalleSubgrupoEspecializacionDocenteActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.dashboard.docente.RevisionPropuestasEspecializacionDocenteActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.dashboard.docente.NotasSubgrupoDocenteActivity"
             android:exported="false" />
 
