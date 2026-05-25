@@ -1,10 +1,14 @@
 package com.example.gradues.ui.dashboard.alumno
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gradues.R
 import com.example.gradues.data.dao.PropuestaEspecializacionAlumnoDao
@@ -21,6 +25,39 @@ class RegistrarPropuestasEspecializacionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegistrarPropuestasEspecializacionBinding
     private lateinit var propuestaDao: PropuestaEspecializacionAlumnoDao
     private lateinit var sessionManager: SessionManager
+    private var propuestaSeleccionArchivo: Int = 0
+    private var archivoPropuesta1: Uri? = null
+    private var archivoPropuesta2: Uri? = null
+
+    private val selectorPdf = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode != RESULT_OK) return@registerForActivityResult
+
+        val uri = result.data?.data ?: return@registerForActivityResult
+        if (!esPdfValido(uri)) {
+            mostrarMensaje("Solo se permiten archivos PDF")
+            return@registerForActivityResult
+        }
+
+        result.data?.flags?.let { flags ->
+            val permisos = flags and (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            try {
+                contentResolver.takePersistableUriPermission(uri, permisos and Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            } catch (_: SecurityException) {
+                // Some providers do not support persistable permissions.
+            }
+        }
+
+        when (propuestaSeleccionArchivo) {
+            1 -> {
+                archivoPropuesta1 = uri
+                mostrarArchivoSeleccionado(1, uri)
+            }
+            2 -> {
+                archivoPropuesta2 = uri
+                mostrarArchivoSeleccionado(2, uri)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +73,10 @@ class RegistrarPropuestasEspecializacionActivity : AppCompatActivity() {
     private fun configurarEventos() {
         binding.btnBackRegistrarEspecializacion.setOnClickListener { finish() }
         findViewById<View>(R.id.layoutAdjuntarPropuesta1Especializacion).setOnClickListener {
-            mostrarMensaje("Archivo adjunto pendiente de implementar")
+            abrirSelectorPdf(1)
         }
         findViewById<View>(R.id.layoutAdjuntarPropuesta2Especializacion).setOnClickListener {
-            mostrarMensaje("Archivo adjunto pendiente de implementar")
+            abrirSelectorPdf(2)
         }
         findViewById<View>(R.id.btnGuardarPropuesta1Especializacion).setOnClickListener {
             guardarPropuestaIndividual(1, "Borrador")
@@ -64,6 +101,52 @@ class RegistrarPropuestasEspecializacionActivity : AppCompatActivity() {
 
     private fun mostrarMensaje(mensaje: String) {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun abrirSelectorPdf(numeroPropuesta: Int) {
+        propuestaSeleccionArchivo = numeroPropuesta
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "application/pdf"
+            putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("application/pdf"))
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+        }
+        selectorPdf.launch(intent)
+    }
+
+    private fun esPdfValido(uri: Uri): Boolean {
+        val mimeType = contentResolver.getType(uri)
+        if (mimeType == "application/pdf") return true
+
+        val nombre = obtenerNombreArchivo(uri)
+        return nombre.endsWith(".pdf", ignoreCase = true)
+    }
+
+    private fun mostrarArchivoSeleccionado(numeroPropuesta: Int, uri: Uri) {
+        val nombre = obtenerNombreArchivo(uri).ifBlank { "archivo.pdf" }
+        val textViewId = if (numeroPropuesta == 1) {
+            R.id.tvArchivoSeleccionadoPropuesta1Especializacion
+        } else {
+            R.id.tvArchivoSeleccionadoPropuesta2Especializacion
+        }
+
+        findViewById<TextView>(textViewId).text = "Archivo seleccionado: $nombre"
+    }
+
+    private fun obtenerNombreArchivo(uri: Uri): String {
+        if (uri.scheme == "content") {
+            contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    if (index >= 0 && !cursor.isNull(index)) {
+                        return cursor.getString(index)
+                    }
+                }
+            }
+        }
+
+        return uri.lastPathSegment?.substringAfterLast('/') ?: ""
     }
 
     private fun guardarPropuestaIndividual(numeroPropuesta: Int, estado: String) {
@@ -126,7 +209,7 @@ class RegistrarPropuestasEspecializacionActivity : AppCompatActivity() {
                     descripcionPropuesta = datos.descripcion,
                     estadoPropuesta = estado,
                     observacionPropuesta = null,
-                    urlArchivo = null,
+                    urlArchivo = datos.urlArchivo,
                     fechaRegistro = fechaRegistro
                 )
             )
@@ -148,13 +231,19 @@ class RegistrarPropuestasEspecializacionActivity : AppCompatActivity() {
 
         return DatosPropuesta(
             titulo = findViewById<EditText>(tituloId).text.toString().trim(),
-            descripcion = findViewById<EditText>(descripcionId).text.toString().trim()
+            descripcion = findViewById<EditText>(descripcionId).text.toString().trim(),
+            urlArchivo = if (numeroPropuesta == 1) {
+                archivoPropuesta1?.toString()
+            } else {
+                archivoPropuesta2?.toString()
+            }
         )
     }
 
     private data class DatosPropuesta(
         val titulo: String,
-        val descripcion: String
+        val descripcion: String,
+        val urlArchivo: String?
     ) {
         fun tieneContenido(): Boolean = titulo.isNotEmpty() || descripcion.isNotEmpty()
         fun esValida(): Boolean = titulo.isNotEmpty() && descripcion.isNotEmpty()

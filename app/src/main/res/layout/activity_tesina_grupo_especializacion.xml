@@ -30,17 +30,19 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvTituloSubgrupoTesinaEspecializacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Subgrupo 1"
+                android:text="Subgrupo"
                 android:textColor="@android:color/white"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvCursoTesinaEspecializacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Curso de Desarrollo Web"
+                android:text="Curso de especialización"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
         </LinearLayout>
@@ -90,11 +92,12 @@
                 android:background="#DADADA" />
 
             <TextView
+                android:id="@+id/tvTituloTesinaEspecializacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:gravity="center"
-                android:text="Implementación del sistema de seguimiento académico para la UES"
+                android:text="Tesina del grupo"
                 android:textColor="#444444"
                 android:textSize="16sp" />
 
@@ -105,6 +108,7 @@
                 android:background="#DADADA" />
 
             <TextView
+                android:id="@+id/tvEstadoTesinaEspecializacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -114,6 +118,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvVersionTesinaEspecializacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -160,6 +165,7 @@
                     android:background="#DADADA" />
 
                 <TextView
+                    android:id="@+id/tvObservacionTesinaEspecializacion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
@@ -247,6 +253,25 @@
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvArchivoSeleccionadoTesinaEspecializacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="18dp"
+                android:text="Sin archivo seleccionado"
+                android:textColor="#555555"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnHistorialTesinaGrupoEspecializacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="18dp"
+                android:background="@drawable/bg_button_gray"
+                android:text="Historial"
+                android:textAllCaps="false"
+                android:textColor="#222222" />
         </LinearLayout>
     </ScrollView>
 
