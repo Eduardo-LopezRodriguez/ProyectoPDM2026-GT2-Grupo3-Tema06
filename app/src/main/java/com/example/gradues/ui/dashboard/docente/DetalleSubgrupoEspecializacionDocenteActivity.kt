@@ -83,6 +83,13 @@ class DetalleSubgrupoEspecializacionDocenteActivity : AppCompatActivity() {
             cardView.findViewById<TextView>(R.id.tvEstadoSubgrupo).text = "Estado: ${subgrupo.estadoSubgrupo}"
             cardView.findViewById<TextView>(R.id.tvTotalEstudiantesSubgrupo).text = "Estudiantes: ${subgrupo.totalEstudiantes}"
             cardView.findViewById<TextView>(R.id.tvPromedioGeneralSubgrupo).text = "Promedio General: ${subgrupo.promedioGeneralSubgrupo}"
+            cardView.findViewById<android.widget.Button>(R.id.btnRevisarPropuestasSubgrupo).setOnClickListener {
+                val intent = Intent(this, RevisionPropuestasEspecializacionDocenteActivity::class.java).apply {
+                    putExtra("ID_TRABAJO_GRADUACION", subgrupo.idTrabajoGraduacion)
+                    putExtra("NOMBRE_SUBGRUPO", subgrupo.nombreSubgrupo)
+                }
+                startActivity(intent)
+            }
 
             cardView.setOnClickListener {
                 val intent = Intent(this, NotasSubgrupoDocenteActivity::class.java).apply {
