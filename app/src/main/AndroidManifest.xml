@@ -19,7 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".ui.dashboard.admin.GestionCursosAdminActivity" />
+        <activity android:name=".ui.dashboard.admin.CrearCursoAdminActivity" />
+        <activity android:name=".ui.dashboard.admin.SubgruposCursoAdminActivity" />
+        <activity android:name=".ui.dashboard.admin.CrearSubgrupoAdminActivity" />
+        <activity android:name=".ui.dashboard.admin.AsignarEstudiantesAdminActivity" />
         <activity
             android:name=".ui.dashboard.docente.DashboardDocenteActivity"
             android:exported="false" />

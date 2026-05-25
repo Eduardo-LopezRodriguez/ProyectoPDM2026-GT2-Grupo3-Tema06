@@ -47,6 +47,11 @@ class DashboardAdminActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.btnGestionarCursos.setOnClickListener {
+            val intent = Intent(this, GestionCursosAdminActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.btnActualizar.setOnClickListener {
             cargarDashboard()
         }
