@@ -40,6 +40,19 @@
             android:name=".ui.dashboard.admin.DetalleSolicitudAdminActivity"
             android:exported="false" />
 
+        <activity android:name=".ui.dashboard.alumno.AlumnoGrupoDetalleActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoPropuestasDetalleActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoRegistrarPropuestaActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoTesisActivity" />
+
+        <activity android:name=".ui.dashboard.alumno.AlumnoPasantiaDetalleActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoBitacorasActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoRegistrarBitacoraActivity" />
+        <activity android:name=".ui.dashboard.alumno.AlumnoMemoriaActivity" />
+        <activity android:name=".ui.dashboard.alumno.DetalleSubgrupoEspecializacionActivity" />
+        <activity android:name=".ui.dashboard.alumno.RegistrarPropuestasEspecializacionActivity" />
+        <activity android:name=".ui.dashboard.alumno.TesinaGrupoEspecializacionActivity" />
+
     </application>
 
 </manifest>
